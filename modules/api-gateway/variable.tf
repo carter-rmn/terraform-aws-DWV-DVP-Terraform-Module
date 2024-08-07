@@ -1,0 +1,9 @@
+variable "odin_rmn_web_certificate_arn" {}
+variable "odin-rmn-stage-name" {}
+variable "odin-rmn-api-gateway-name" {}
+variable "odin_rmn_domain_name" {}
+variable "hosted_zone_id" {}
+variable "odin-rmn-vpc-link-name" {}
+variable "odi_rmn_alb_listener_arn" {}
+variable "security_group_ids" {}
+variable "subnet_ids" {}
