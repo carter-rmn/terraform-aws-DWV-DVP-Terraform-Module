@@ -1,0 +1,15 @@
+variable "ecrname_builder" {}
+variable "ecrname_management" {}
+variable "ecrname_connector" {}
+variable "ecrname_fe" {}
+variable "imagetag" {}
+variable "ecrname_test_builder" {}
+variable "ecrname_test_management" {}
+variable "ecrname_test_connector" {}
+variable "ecrname_test_fe" {}
+variable "ecrname_odin" {}
+variable "ecrname_web" {}
+variable "ecrname_scheduler" {}
+variable "ecrname_odin_executor_rmn" {}
+variable "ecrname_odin_web_rmn" {}
+variable "ecrname_odin_scheduler_rmn" {}
