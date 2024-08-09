@@ -1,5 +1,4 @@
 resource "aws_ecr_repository" "ecrs" {
-  # for_each             = local.ecr.repositories
   name                 = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-ecr-${each.key}"
   image_tag_mutability = "IMMUTABLE"
 
