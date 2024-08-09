@@ -5,7 +5,7 @@ resource "aws_instance" "ec2s" {
   instance_type = each.value.instance_type
   key_name      = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-ec2-${element(split("-", each.key), 0)}"
   user_data                   = "${file("./modules/data-weaver-ec2-instance/db.sh")}"
-  vpc_security_group_ids = var.security_group_id
+  vpc_security_group_ids = [aws_security_group.sg_mongo.id,aws_security_group.sg_ssh.id]
   subnet_id = var.subnet_id
   associate_public_ip_address = each.value.public
 

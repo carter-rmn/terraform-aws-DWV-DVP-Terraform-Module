@@ -7,7 +7,9 @@ resource "aws_eks_cluster" "data_weaver_eks_cluster" {
   vpc_config {
     endpoint_public_access    = true
     subnet_ids                = var.private_id
+    security_group_ids        = [aws_security_group.sg_eks.id]
   }
+
    tags = {
     Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-eks"
     Project     = var.project_name
