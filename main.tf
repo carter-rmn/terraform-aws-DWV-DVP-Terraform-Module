@@ -93,7 +93,7 @@ module "rds" {
 module "s3" {
      count = var.s3.create ? 1 : 0
      source = "./modules/s3"
-     bucket_name_1 = var.s3.bucket_name_1
+     names = var.s3.names
      project_name    = var.project_name
      PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
      PROJECT_ENV = var.PROJECT_ENV
