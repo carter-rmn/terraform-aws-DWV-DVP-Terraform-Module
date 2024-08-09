@@ -1,5 +1,5 @@
 resource "aws_eks_cluster" "data_weaver_eks_cluster" {
-  name                      = "${var.environment}-${var.cluster_name}"
+  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-eks-cluster"
   enabled_cluster_log_types = ["api", "audit", "authenticator","controllerManager","scheduler"]
   role_arn                  = aws_iam_role.data_weaver_eks.arn
   version                   = var.aws_eks_cluster_version
@@ -8,12 +8,19 @@ resource "aws_eks_cluster" "data_weaver_eks_cluster" {
     endpoint_public_access    = true
     subnet_ids                = var.private_id
   }
+   tags = {
+    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-eks"
+    Project     = var.project_name
+    Customer    = var.PROJECT_CUSTOMER
+    Environment = var.PROJECT_ENV
+    Terraform   = true
+  }
 
 }
 ### Adding Fargate profile for EKS cluster ###
 resource "aws_eks_fargate_profile" "data_weaver_eks_fargate" {
   cluster_name           = aws_eks_cluster.data_weaver_eks_cluster.name
-  fargate_profile_name   = "${var.environment}-data-weaver-fargate-profile"
+  fargate_profile_name   = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-eks-fargate-profile"
   pod_execution_role_arn = aws_iam_role.data_weaver_fargate.arn
   subnet_ids             = var.private_id
 

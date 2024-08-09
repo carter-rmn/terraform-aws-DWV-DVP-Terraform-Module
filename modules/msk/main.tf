@@ -1,14 +1,14 @@
 resource "aws_msk_cluster" "kafka_cluster" {
-  cluster_name           = var.kafka_cluster
+  cluster_name           = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-msk-cluster"
   kafka_version          = "3.6.0"
   number_of_broker_nodes = var.number_of_broker_nodes
 
   broker_node_group_info {
-    instance_type = var.kafka_instance_type
+    instance_type = var.instance_type
     client_subnets = var.subnet_ids
     storage_info {
       ebs_storage_info {
-        volume_size = var.kafka_volume_size
+        volume_size = var.volume_size
       }
     }
     security_groups = [var.security_group]
@@ -31,7 +31,7 @@ resource "aws_msk_cluster" "kafka_cluster" {
     }
   }
   tags = {
-    Name        = var.kafka_cluster
+    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-msk-cluster"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
@@ -40,10 +40,10 @@ resource "aws_msk_cluster" "kafka_cluster" {
 }
 
 resource "aws_cloudwatch_log_group" "kafka" {
-  name = var.kafka_cloudwatch_log_group
+  name = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-msk-log-group"
   retention_in_days = 3
   tags = {
-    Name        = var.kafka_cluster
+    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-msk-log-group"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
@@ -54,7 +54,7 @@ resource "aws_cloudwatch_log_group" "kafka" {
 
 resource "aws_msk_configuration" "kafka_config" {
   kafka_versions = ["3.6.0"]
-  name           = var.kafka_config
+  name           = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-msk-config"
 
   server_properties = <<PROPERTIES
 auto.create.topics.enable = true
