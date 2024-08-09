@@ -1,12 +1,26 @@
 resource "aws_apigatewayv2_api" "http_api" {
-  name          = var.api-gateway-name
+  name          = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-api-gateway-odin"
   protocol_type = "HTTP"
+   tags = {
+    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-api-gateway-odin"
+    Project     = var.project_name
+    Customer    = var.PROJECT_CUSTOMER
+    Environment = var.PROJECT_ENV
+    Terraform   = true
+  }
 }
 
 resource "aws_apigatewayv2_vpc_link" "odin_vpc_link" {
-  name          = var.vpc-link-name
+  name          = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-vpc-link-odin"
   security_group_ids = [var.security_group_ids]
   subnet_ids    = var.subnet_ids
+  tags = {
+    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-vpc-link-odin"
+    Project     = var.project_name
+    Customer    = var.PROJECT_CUSTOMER
+    Environment = var.PROJECT_ENV
+    Terraform   = true
+  }
   
 }
 
@@ -17,8 +31,7 @@ resource "aws_apigatewayv2_integration" "alb_integration" {
   connection_type    = "VPC_LINK"
   description        = "VPC integration"
   connection_id = aws_apigatewayv2_vpc_link.odin_vpc_link.id
-  #integration_uri = aws_lb_listener.odin_listener.arn
-  integration_uri = "arn:aws:elasticloadbalancing:us-east-1:760088588455:listener/app/k8s-devweb-fd1a8de2d3/a4e3766a0830d70a/5758938239272cce"
+  integration_uri = var.integration_uri
 }
 
 resource "aws_apigatewayv2_route" "api_route" {
@@ -38,7 +51,7 @@ resource "aws_apigatewayv2_domain_name" "custom_domain" {
 }
 resource "aws_apigatewayv2_stage" "odin_stage" {
   api_id      = aws_apigatewayv2_api.http_api.id
-  name        = var.stage-name
+  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-stage-odin"
   auto_deploy = true
 }
 resource "aws_apigatewayv2_api_mapping" "mapping" {
