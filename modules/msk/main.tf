@@ -11,7 +11,7 @@ resource "aws_msk_cluster" "kafka_cluster" {
         volume_size = var.volume_size
       }
     }
-    security_groups = [var.security_group]
+    security_groups = [aws_security_group.sg_msk.id]
   }
   logging_info {
     broker_logs {

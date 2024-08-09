@@ -18,7 +18,7 @@ resource "aws_memorydb_cluster" "redis" {
   node_type                = var.redis_node
   num_shards               = var.redis_num_shards
   num_replicas_per_shard   = var.redis_num_replicas_per_shard
-  security_group_ids       = [var.security_group_id]
+  security_group_ids       = [aws_security_group.sg_redis.id]
   snapshot_retention_limit = var.redis_snapshot_retention_limit
   subnet_group_name        = aws_memorydb_subnet_group.redis_subnet_group.id
   tls_enabled              = "false"

@@ -1,15 +1,16 @@
 module "ec2" {
+  count = var.ecr.create ? 1 : 0
   source = "./modules/ec2"
   for_each = local.ec2.instances
-  subnet_id = var.ec2.subnet_id
-  security_group_id = var.ec2.security_group_id
+  subnet_id = element(each.value.public ? (var.vpc.subnets.public) : (var.vpc.subnets.private), each.value.subnet_index)
   instance_profile = var.ec2.instance_profile
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
-  PROJECT_ENV = var.PROJECT_ENV 
+  PROJECT_ENV = var.PROJECT_ENV
   
 }
 module "key_pair" {
+  count = var.ecr.create ? 1 : 0
   source = "./modules/key_pair"
   for_each   = local.keys
   project_name    = var.project_name
@@ -19,8 +20,8 @@ module "key_pair" {
 }
 module "ecr" {
   count = var.ecr.create ? 1 : 0
-  source                      = "./modules/ecr"
-  for_each             = local.ecr.repositories
+  source       = "./modules/ecr"
+  for_each     = local.ecr.repositories
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV 
@@ -47,11 +48,11 @@ module "api-gateway" {
   source                = "./modules/api-gateway"
   certificate_arn       = var.api-gateway.certificate_arn
   security_group_ids = module.eks.eks_sg
+  subnet_ids = var.vpc.subnet.private.id
   integration_uri = var.api-gateway.integration_uri
-  subnet_ids = module.vpc.private_subnets
   domain_name = var.api-gateway.domain_name
   hosted_zone_id = var.api-gateway.hosted_zone_id
-  project_name    = local.dev-odin-infra.project_name
+  project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV 
   depends_on            = [module.vpc, module.eks]
@@ -66,7 +67,7 @@ module "msk" {
     number_of_broker_nodes = var.msk.number_of_broker_nodes
     instance_type = var.msk.instance_type
     volume_size = var.msk.volume_size
-    project_name    = local.dev-odin-infra.project_name
+    project_name    = var.project_name
     PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
     PROJECT_ENV = var.PROJECT_ENV 
 }
