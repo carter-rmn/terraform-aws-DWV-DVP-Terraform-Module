@@ -24,12 +24,15 @@ variable "msk" {
       instance_type = string
     })
   
+
 }
+
 variable "key_pair" {
     type = object({
       create = bool
     })
 }
+
 variable "ec2" {
     type = object({
       create = bool
@@ -37,17 +40,17 @@ variable "ec2" {
       instance_type = string
       associate_public_ip_address = string
       instance_profile = string 
+
     })
-  
 }
 
 variable "secrets-manager" {
     type = object({
       create = bool
       secret_string = string
-    })
-  
+    })  
 }
+
 variable "eks" {
     type = object({
       create = bool
@@ -59,9 +62,9 @@ variable "eks" {
       fargate_namespace_5 = string
       eks_role_name = string
       aws_eks_cluster_version = string
-
     })
 }
+
 variable "api-gateway" {
   type = object({
     create = bool
@@ -69,9 +72,9 @@ variable "api-gateway" {
     integration_uri = string
     domain_name = string
     hosted_zone_id = string
-  })
-  
+  })  
 }
+
 variable "ecr" {
     type = object({
       create = bool
@@ -95,16 +98,16 @@ variable "rds" {
         max_allocated_storage = number
         backup_retention_period = number
       })
-    })
-  
+    })  
 }
+
 variable "s3" {
     type = object({
       create = bool
       names = list(string)
     })
-  
 }
+
 variable "redis" {
     type = object({
       create = bool
