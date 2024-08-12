@@ -3,7 +3,7 @@ resource "aws_s3_bucket" "bucket" {
   bucket = each.key
 
   tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-s3-${each.key}"
+    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-s3-bucket-${each.key}"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV

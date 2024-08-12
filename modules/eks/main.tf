@@ -44,7 +44,7 @@ resource "aws_eks_fargate_profile" "data_weaver_eks_fargate" {
 
 }
 resource "aws_iam_role" "data_weaver_fargate" {
-  name = "${var.eks_role_name}-eks-fargate-profile"
+  name = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-eks-fargate-profile"
 
   assume_role_policy = jsonencode({
     Statement = [{
@@ -58,7 +58,7 @@ resource "aws_iam_role" "data_weaver_fargate" {
   })
 }
 resource "aws_iam_policy" "EksFargatePodExecutionRolePolicy" {
-  name        = "${var.eks_role_name}-EksFargatePodExecutionRole-policy"
+  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-EksFargatePodExecutionRole-policy"
   description = "Policy for EKS Fargate Pod Execution Role"
 
   policy = jsonencode({
@@ -94,7 +94,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSFargatePodExecutionRolePolic
   role       = aws_iam_role.data_weaver_fargate.name
 }
 resource "aws_iam_role" "data_weaver_eks" {
-  name               = "${var.eks_role_name}-eks-cluster"
+  name               = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-eks-cluster-iam-role"
   assume_role_policy = jsonencode({
     Statement = [{
       Action = "sts:AssumeRole"
@@ -157,12 +157,12 @@ data "aws_iam_policy_document" "aws_load_balancer_controller_assume_role_policy"
 
 resource "aws_iam_role" "aws_load_balancer_controller" {
   assume_role_policy = data.aws_iam_policy_document.aws_load_balancer_controller_assume_role_policy.json
-  name               = "data-weaver-aws-load-balancer-controller"
+  name               = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-aws-load-balancer-controller"
 }
 
 resource "aws_iam_policy" "aws_load_balancer_controller" {
   policy = file("./modules/eks/AWSLoadBalancerController.json")
-  name   = "data-weaver-AWSLoadBalancerController"
+  name   = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-AWSLoadBalancerController"
 }
 
 resource "aws_iam_role_policy_attachment" "aws_load_balancer_controller_attach" {

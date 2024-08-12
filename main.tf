@@ -1,16 +1,21 @@
 module "ec2" {
-  count = var.ecr.create ? 1 : 0
+  count = var.ec2.create ? 1 : 0
   source = "./modules/ec2"
   for_each = local.ec2.instances
+  ami     = local.ec2.ami
+  instance_type = each.value.instance_type
+  associate_public_ip_address = each.value.public
+  volume_size = each.value.volume_size
   subnet_id = element(each.value.public ? (var.vpc.subnets.public) : (var.vpc.subnets.private), each.value.subnet_index)
   instance_profile = var.ec2.instance_profile
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV
+  depends_on = [module.key_pair]
   
 }
 module "key_pair" {
-  count = var.ecr.create ? 1 : 0
+  count = var.key_pair.create ? 1 : 0
   source = "./modules/key_pair"
   for_each   = local.keys
   project_name    = var.project_name
@@ -35,12 +40,10 @@ module "eks" {
   fargate_namespace_3   = var.eks.fargate_namespace_3
   fargate_namespace_4   = var.eks.fargate_namespace_4
   fargate_namespace_5   = var.eks.fargate_namespace_5
-  eks_role_name         = var.eks.eks_role_name
   aws_eks_cluster_version = var.eks.aws_eks_cluster_version
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
-  PROJECT_ENV = var.PROJECT_ENV 
-  depends_on            = [module.vpc]
+  PROJECT_ENV = var.PROJECT_ENV
 }
 
 module "api-gateway" {
@@ -55,7 +58,7 @@ module "api-gateway" {
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV 
-  depends_on            = [module.vpc, module.eks]
+  depends_on       = [module.eks]
 
 }
 
@@ -88,7 +91,6 @@ module "rds" {
     project_name    = var.project_name
     PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
     PROJECT_ENV = var.PROJECT_ENV
-    depends_on = [module.vpc]
 }
 module "s3" {
      count = var.s3.create ? 1 : 0
@@ -112,7 +114,6 @@ module "redis" {
     PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
     PROJECT_ENV = var.PROJECT_ENV 
     subnet_ids = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
-    depends_on = [module.vpc]
 }
 
 module "secrets-manager" {
@@ -122,6 +123,6 @@ module "secrets-manager" {
   secret_string = module.data-weaver-ec2-instance.private_key_data_weaver
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
-  PROJECT_ENV = var.PROJECT_ENV 
-
+  PROJECT_ENV = var.PROJECT_ENV
+  depends_on = [module.key_pair]
 }

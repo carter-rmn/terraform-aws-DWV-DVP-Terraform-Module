@@ -3,3 +3,7 @@ variable "PROJECT_CUSTOMER" {}
 variable "PROJECT_ENV" {}
 variable "instance_profile" {}
 variable "subnet_id" {}
+variable "ami" {}
+variable "instance_type" {}
+variable "associate_public_ip_address" {}
+variable "volume_size" {}
