@@ -1,5 +1,4 @@
 resource "aws_security_group" "sg_eks" {
-  count       = var.msk.create ? 1 : 0
   name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-eks"
 
   vpc_id = var.vpc.id
