@@ -64,7 +64,6 @@ variable "eks" {
       fargate_namespace_3 = string
       fargate_namespace_4 = string
       fargate_namespace_5 = string
-      eks_role_name = string
       aws_eks_cluster_version = string
     })
 }
@@ -82,6 +81,7 @@ variable "api-gateway" {
 variable "ecr" {
     type = object({
       create = bool
+      ecr = map(any)
     })
 }
 
@@ -97,11 +97,8 @@ variable "rds" {
       username = string
       password = string
       parameter_group_name = string
-       rds = object({
-        allocated_storage = number
-        max_allocated_storage = number
-        backup_retention_period = number
-      })
+      rds_allocated_storage = number
+      rds_max_allocated_storage = number
     })  
 }
 
@@ -115,13 +112,11 @@ variable "s3" {
 variable "redis" {
     type = object({
       create = bool
-      redis = object({
-        engine_version = string
-        node = string
-        num_shards = number
-        num_replicas_per_shard = number
-        snapshot_retention_limit = number
-      })
+      redis_engine_version = string
+      redis_node = string
+      redis_num_shards = number
+      redis_num_replicas_per_shard = number
+      redis_snapshot_retention_limit = number
     })
   
 }

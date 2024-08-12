@@ -26,6 +26,7 @@ module "key_pair" {
 module "ecr" {
   count = var.ecr.create ? 1 : 0
   source       = "./modules/ecr"
+  ecr = var.ecr
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV 
@@ -64,7 +65,6 @@ module "api-gateway" {
 module "msk" {
     count = var.msk.create ? 1 : 0
     source = "./modules/msk"
-    security_group  = var.msk.security_group
     subnet_ids         = module.vpc.private_subnets
     number_of_broker_nodes = var.msk.number_of_broker_nodes
     instance_type = var.msk.instance_type
@@ -83,7 +83,6 @@ module "rds" {
     username   = var.rds.username
     password   = var.rds.password
     parameter_group_name  = var.rds.parameter_group_name
-    security_group_ids   = var.rds.security_group
     subnet_ids = module.vpc.private_subnets
     rds_allocated_storage = var.rds.rds_allocated_storage
     rds_max_allocated_storage = var.rds.rds_max_allocated_storage
@@ -106,8 +105,7 @@ module "redis" {
     redis_engine_version    =   var.redis.redis_engine_version
     redis_node    =   var.redis.redis_node
     redis_num_shards    =   var.redis.redis_num_shards 
-    redis_num_replicas_per_shard    =   var.redis.redis_num_replicas_per_shard 
-    security_group_id   =   var.redis.security_group_id
+    redis_num_replicas_per_shard    =   var.redis.redis_num_replicas_per_shard
     redis_snapshot_retention_limit    =   var.redis.redis_snapshot_retention_limit
     project_name    = var.project_name
     PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER

@@ -5,7 +5,6 @@ variable "instance_class" {}
 variable "username" {}
 variable "password" {}
 variable "parameter_group_name" {}
-variable "security_group_ids" {}
 variable "subnet_ids" {}
 variable "rds_allocated_storage" {}
 variable "rds_max_allocated_storage" {}

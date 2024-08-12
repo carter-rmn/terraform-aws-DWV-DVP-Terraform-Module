@@ -1,4 +1,3 @@
-variable "security_group" {}
 variable "subnet_ids" {}
 variable "number_of_broker_nodes" {}
 variable "instance_type" {}
