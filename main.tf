@@ -11,7 +11,7 @@ module "ec2" {
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV
-  depends_on = [aws_key_pair.ec2s]
+  depends_on = [module.key_pair]
   
 }
 module "key_pair" {
@@ -43,8 +43,7 @@ module "eks" {
   aws_eks_cluster_version = var.eks.aws_eks_cluster_version
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
-  PROJECT_ENV = var.PROJECT_ENV 
-  depends_on            = [module.vpc]
+  PROJECT_ENV = var.PROJECT_ENV
 }
 
 module "api-gateway" {
@@ -59,7 +58,7 @@ module "api-gateway" {
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV 
-  depends_on       = [module.vpc, module.eks]
+  depends_on       = [module.eks]
 
 }
 
@@ -92,7 +91,6 @@ module "rds" {
     project_name    = var.project_name
     PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
     PROJECT_ENV = var.PROJECT_ENV
-    depends_on = [module.vpc]
 }
 module "s3" {
      count = var.s3.create ? 1 : 0
@@ -116,7 +114,6 @@ module "redis" {
     PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
     PROJECT_ENV = var.PROJECT_ENV 
     subnet_ids = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
-    depends_on = [module.vpc]
 }
 
 module "secrets-manager" {
@@ -127,4 +124,5 @@ module "secrets-manager" {
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV
+  depends_on = [module.key_pair]
 }

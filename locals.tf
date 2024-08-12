@@ -3,21 +3,17 @@ locals {
 
   ecr = {
     repositories = [
-      "management",
-      "frontend",
-      "odin-executor",
-      "odin-scheduler",
-      "odin-web"
+      "",
     ]
   }
   ec2 = {
-      ami = "ami-0083d3f8b2a6c7a81"
+      ami = ""
       instances = {
         mongo-1 = {
-          instance_type = "t2.micro"
-          subnet_index = 0
-          volume_size = 32
-          public = true
+          instance_type = ""
+          subnet_index = ""
+          volume_size = ""
+          public = ""
         }
       }
   }
