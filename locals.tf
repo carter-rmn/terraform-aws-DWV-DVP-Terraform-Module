@@ -1,10 +1,4 @@
 locals {
-  dev-odin-infra = jsondecode(
-    data.aws_secretsmanager_secret_version.creds_odin.secret_string
-  )
-  dev-data-weaver-infra = jsondecode(
-    data.aws_secretsmanager_secret_version.creds.secret_string
-  )
   keys = { for item in distinct([for item, _ in local.ec2.instances : element(split("-", item), 0)]) : item => {} }
 
   ecr = {

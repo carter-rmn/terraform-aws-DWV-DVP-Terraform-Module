@@ -22,9 +22,6 @@ variable "msk" {
       volume_size = number
       number_of_broker_nodes = number
       instance_type = string
-      # security_group = list(string)
-      # subnet_ids = list(string)
- 
     })
   
 }
@@ -36,10 +33,10 @@ variable "key_pair" {
 variable "ec2" {
     type = object({
       create = bool
-      instance_profile = string
-      # subnet_id = string
-      # security_group_id = list(string)
-       
+      ami    = string
+      instance_type = string
+      associate_public_ip_address = string
+      instance_profile = string 
     })
   
 }
@@ -70,8 +67,6 @@ variable "api-gateway" {
     create = bool
     certificate_arn = string
     integration_uri = string
-    # security_group_ids = list(string)
-    # subnet_ids = list(string)
     domain_name = string
     hosted_zone_id = string
   })
@@ -95,8 +90,6 @@ variable "rds" {
       username = string
       password = string
       parameter_group_name = string
-      # security_group = list(string)
-      # subnet_ids = list(string)
        rds = object({
         allocated_storage = number
         max_allocated_storage = number
@@ -108,7 +101,7 @@ variable "rds" {
 variable "s3" {
     type = object({
       create = bool
-      bucket_name_1 = string
+      names = list(string)
     })
   
 }
@@ -122,8 +115,6 @@ variable "redis" {
         num_replicas_per_shard = number
         snapshot_retention_limit = number
       })
-      # security_group_id = list(string)
-      # subnet_ids = list(string)
     })
   
 }
