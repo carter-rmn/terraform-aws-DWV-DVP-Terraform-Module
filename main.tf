@@ -120,7 +120,7 @@ module "secrets-manager" {
   count = var.secrets-manager.create ? 1 : 0
   source = "./modules/secrets-manager"
   for_each = local.keys
-  secret_string = module.data-weaver-ec2-instance.private_key_data_weaver
+  secret_string = module.key_pair.tls_private_key[each.key]
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV
