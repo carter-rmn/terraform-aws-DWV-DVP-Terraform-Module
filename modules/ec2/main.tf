@@ -1,4 +1,5 @@
 resource "aws_instance" "ec2s" {
+  for_each = var.ec2
   ami           = var.ami
   instance_type = var.instance_type
   key_name      = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-ec2-${element(split("-", each.key), 0)}"

@@ -30,25 +30,28 @@ variable "msk" {
 variable "key_pair" {
     type = object({
       create = bool
+      keys = map(any)
     })
 }
 
 variable "ec2" {
-    type = object({
-      create = bool
-      ami    = string
+  type = object({
+    create = bool
+    ami = string
+    instances = map(object({
       instance_type = string
-      volume_size = number
-      associate_public_ip_address = string
-      instance_profile = string 
-
-    })
+      subnet_index  = number
+      volume_size   = number
+      associate_public_ip_address = bool
+      instance_profile = string
+    }))
+  })
 }
-
 variable "secrets-manager" {
     type = object({
       create = bool
-      secret_string = string
+      keys = map(any)
+      secret_string = map (string)
     })  
 }
 
