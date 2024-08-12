@@ -1,5 +1,5 @@
 resource "aws_db_instance" "postgres" {
-  identifier           =  "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-rds-cluster-odin"
+  identifier           =  "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-rds-cluster-core"
   engine               =  var.engine
   engine_version       =  var.engine_version
   instance_class       =  var.instance_class
@@ -22,7 +22,7 @@ resource "aws_db_instance" "postgres" {
   vpc_security_group_ids = [aws_security_group.sg_rds.id]
   db_subnet_group_name = aws_db_subnet_group.rds_postgress.id
   tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-rds-cluster-odin"
+    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-rds-cluster-core"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
@@ -31,7 +31,7 @@ resource "aws_db_instance" "postgres" {
 
 }
 resource "aws_db_subnet_group" "rds_postgress" {
-  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-rds-subnet-group-odin"
-  description =  "odin Postgress RDS private subnet group"
+  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-rds-subnet-group-core"
+  description =  "core Postgress RDS private subnet group"
   subnet_ids  = var.subnet_ids
 }

@@ -1,13 +1,13 @@
 module "ec2" {
   count = var.ec2.create ? 1 : 0
   source = "./modules/ec2"
-  for_each = local.ec2.instances
-  ami     = local.ec2.ami
-  instance_type = each.value.instance_type
-  associate_public_ip_address = each.value.public
-  volume_size = each.value.volume_size
-  subnet_id = element(each.value.public ? (var.vpc.subnets.public) : (var.vpc.subnets.private), each.value.subnet_index)
-  instance_profile = var.ec2.instance_profile
+  ec2 = var.ec2.instances
+  ami     = var.ec2.ami
+  instance_type = var.ec2.instances.instance_type
+  associate_public_ip_address = var.ec2.instances.associate_public_ip_address
+  volume_size = var.ec2.instances.volume_size
+  subnet_id = var.vpc.subnets
+  instance_profile = var.ec2.instances.instance_profile
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV
@@ -17,7 +17,7 @@ module "ec2" {
 module "key_pair" {
   count = var.key_pair.create ? 1 : 0
   source = "./modules/key_pair"
-  for_each   = local.keys
+  keys = var.key_pair.keys
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV 
@@ -26,7 +26,6 @@ module "key_pair" {
 module "ecr" {
   count = var.ecr.create ? 1 : 0
   source       = "./modules/ecr"
-  for_each     = local.ecr.repositories
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV 
@@ -119,7 +118,7 @@ module "redis" {
 module "secrets-manager" {
   count = var.secrets-manager.create ? 1 : 0
   source = "./modules/secrets-manager"
-  for_each = local.keys
+  keys = var.key_pair.keys
   secret_string = module.key_pair.tls_private_key[each.key]
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER

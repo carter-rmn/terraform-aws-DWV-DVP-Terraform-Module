@@ -1,8 +1,8 @@
 resource "aws_apigatewayv2_api" "http_api" {
-  name          = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-api-gateway-odin"
+  name          = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-api-gateway-core"
   protocol_type = "HTTP"
    tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-api-gateway-odin"
+    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-api-gateway-core"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
@@ -10,12 +10,12 @@ resource "aws_apigatewayv2_api" "http_api" {
   }
 }
 
-resource "aws_apigatewayv2_vpc_link" "odin_vpc_link" {
-  name          = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-vpc-link-odin"
+resource "aws_apigatewayv2_vpc_link" "core_vpc_link" {
+  name          = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-vpc-link-core"
   security_group_ids = [var.security_group_ids]
   subnet_ids    = var.subnet_ids
   tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-vpc-link-odin"
+    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-vpc-link-core"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
@@ -30,7 +30,7 @@ resource "aws_apigatewayv2_integration" "alb_integration" {
   integration_method = "ANY"
   connection_type    = "VPC_LINK"
   description        = "VPC integration"
-  connection_id = aws_apigatewayv2_vpc_link.odin_vpc_link.id
+  connection_id = aws_apigatewayv2_vpc_link.core_vpc_link.id
   integration_uri = var.integration_uri
 }
 
@@ -49,14 +49,14 @@ resource "aws_apigatewayv2_domain_name" "custom_domain" {
     security_policy = "TLS_1_2"
   }
 }
-resource "aws_apigatewayv2_stage" "odin_stage" {
+resource "aws_apigatewayv2_stage" "core_stage" {
   api_id      = aws_apigatewayv2_api.http_api.id
-  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-stage-odin"
+  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-stage-core"
   auto_deploy = true
 }
 resource "aws_apigatewayv2_api_mapping" "mapping" {
   domain_name = aws_apigatewayv2_domain_name.custom_domain.domain_name
-  stage       = aws_apigatewayv2_stage.odin_stage.name
+  stage       = aws_apigatewayv2_stage.core_stage.name
   api_id      = aws_apigatewayv2_api.http_api.id
 }
 resource "aws_route53_record" "api_custom_domain" {
