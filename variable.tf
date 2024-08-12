@@ -38,6 +38,7 @@ variable "ec2" {
       create = bool
       ami    = string
       instance_type = string
+      volume_size = number
       associate_public_ip_address = string
       instance_profile = string 
 
