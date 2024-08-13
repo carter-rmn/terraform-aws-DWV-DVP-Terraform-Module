@@ -7,13 +7,13 @@ resource "aws_security_group" "sg_eks" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = [module.vpc.cidr]
+    cidr_blocks = [var.vpc_cidr]
   }
   ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = [module.vpc.cidr]
+    cidr_blocks = [var.vpc_cidr]
   }
 
   egress {

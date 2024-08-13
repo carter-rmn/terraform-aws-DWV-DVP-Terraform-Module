@@ -8,6 +8,7 @@ module "ec2" {
   volume_size = var.ec2.instances.volume_size
   subnet_id = var.vpc.subnets
   instance_profile = var.ec2.instances.instance_profile
+  vpc_cidr = module.vpc.cidr
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV
@@ -41,6 +42,7 @@ module "eks" {
   fargate_namespace_4   = var.eks.fargate_namespace_4
   fargate_namespace_5   = var.eks.fargate_namespace_5
   aws_eks_cluster_version = var.eks.aws_eks_cluster_version
+  vpc_cidr = module.vpc.cidr
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV
@@ -57,8 +59,7 @@ module "api-gateway" {
   hosted_zone_id = var.api-gateway.hosted_zone_id
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
-  PROJECT_ENV = var.PROJECT_ENV 
-  depends_on       = [module.eks]
+  PROJECT_ENV = var.PROJECT_ENV
 
 }
 
@@ -69,6 +70,7 @@ module "msk" {
     number_of_broker_nodes = var.msk.number_of_broker_nodes
     instance_type = var.msk.instance_type
     volume_size = var.msk.volume_size
+    vpc_cidr = module.vpc.cidr
     project_name    = var.project_name
     PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
     PROJECT_ENV = var.PROJECT_ENV 
@@ -86,6 +88,7 @@ module "rds" {
     subnet_ids = module.vpc.private_subnets
     rds_allocated_storage = var.rds.rds_allocated_storage
     rds_max_allocated_storage = var.rds.rds_max_allocated_storage
+    vpc_cidr = module.vpc.cidr
     project_name    = var.project_name
     PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
     PROJECT_ENV = var.PROJECT_ENV
@@ -107,6 +110,7 @@ module "redis" {
     redis_num_shards    =   var.redis.redis_num_shards 
     redis_num_replicas_per_shard    =   var.redis.redis_num_replicas_per_shard
     redis_snapshot_retention_limit    =   var.redis.redis_snapshot_retention_limit
+    vpc_cidr = module.vpc.cidr
     project_name    = var.project_name
     PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
     PROJECT_ENV = var.PROJECT_ENV 

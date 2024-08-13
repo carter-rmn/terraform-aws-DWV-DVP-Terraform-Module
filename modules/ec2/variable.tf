@@ -6,5 +6,6 @@ variable "subnet_id" {}
 variable "ami" {}
 variable "ec2" {}
 variable "instance_type" {}
+variable "vpc_cidr" {}
 variable "associate_public_ip_address" {}
 variable "volume_size" {}

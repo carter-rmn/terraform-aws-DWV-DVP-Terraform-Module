@@ -5,3 +5,4 @@ variable "volume_size" {}
 variable "project_name" {}
 variable "PROJECT_CUSTOMER" {}
 variable "PROJECT_ENV" {}
+variable "vpc_cidr" {}
