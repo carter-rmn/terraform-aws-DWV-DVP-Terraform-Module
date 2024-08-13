@@ -6,7 +6,7 @@ module "ec2" {
   instance_type = var.ec2.instances.instance_type
   associate_public_ip_address = var.ec2.instances.associate_public_ip_address
   volume_size = var.ec2.instances.volume_size
-  subnet_id = var.vpc.subnets
+  subnet_id = module.vpc[0].subnets
   instance_profile = var.ec2.instances.instance_profile
   cidr = var.vpc.on_use.cidr
   vpc_id = module.vpc
