@@ -1,9 +1,0 @@
-variable "integration_uri" {}
-variable "certificate_arn" {}
-variable "security_group_ids" {}
-variable "subnet_ids" {}
-variable "domain_name" {}
-variable "hosted_zone_id" {}
-variable "project_name" {}
-variable "PROJECT_CUSTOMER" {}
-variable "PROJECT_ENV" {}

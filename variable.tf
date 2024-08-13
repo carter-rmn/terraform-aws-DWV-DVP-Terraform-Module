@@ -28,6 +28,7 @@ variable "vpc" {
       })
     })
     on_use = object({
+      vpc_id = string
       cidr = string
       azs = list(string)
       subnets = object({

@@ -2,11 +2,11 @@ resource "aws_eks_cluster" "data_weaver_eks_cluster" {
   name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-eks-cluster"
   enabled_cluster_log_types = ["api", "audit", "authenticator","controllerManager","scheduler"]
   role_arn                  = aws_iam_role.data_weaver_eks.arn
-  version                   = var.aws_eks_cluster_version
+  version                   = var.eks.aws_eks_cluster_version
 
   vpc_config {
     endpoint_public_access    = true
-    subnet_ids                = var.private_subnets
+    subnet_ids                = var.vpc.subnets.private
     security_group_ids        = [aws_security_group.sg_eks.id]
   }
 
@@ -24,22 +24,22 @@ resource "aws_eks_fargate_profile" "data_weaver_eks_fargate" {
   cluster_name           = aws_eks_cluster.data_weaver_eks_cluster.name
   fargate_profile_name   = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-eks-fargate-profile"
   pod_execution_role_arn = aws_iam_role.data_weaver_fargate.arn
-  subnet_ids             = var.private_subnets
+  subnet_ids             = var.vpc.subnets.private
 
   selector {
-    namespace = "${var.fargate_namespace_1}"
+    namespace = "${var.eks.fargate_namespace_1}"
   }
   selector {
-    namespace = "${var.fargate_namespace_2}"
+    namespace = "${var.eks.fargate_namespace_2}"
   }
   selector {
-    namespace = "${var.fargate_namespace_3}"
+    namespace = "${var.eks.fargate_namespace_3}"
   }
   selector {
-    namespace = "${var.fargate_namespace_4}"
+    namespace = "${var.eks.fargate_namespace_4}"
   }
   selector {
-    namespace = "${var.fargate_namespace_5}"
+    namespace = "${var.eks.fargate_namespace_5}"
   }
 
 }
@@ -161,7 +161,7 @@ resource "aws_iam_role" "aws_load_balancer_controller" {
 }
 
 resource "aws_iam_policy" "aws_load_balancer_controller" {
-  policy = file("${path.module}/AWSLoadBalancerController.json")
+  policy = file("./AWSLoadBalancerController.json")
   name   = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-AWSLoadBalancerController"
 }
 

@@ -12,8 +12,8 @@ resource "aws_apigatewayv2_api" "http_api" {
 
 resource "aws_apigatewayv2_vpc_link" "core_vpc_link" {
   name          = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-vpc-link-core"
-  security_group_ids = [var.security_group_ids]
-  subnet_ids    = var.subnet_ids
+  security_group_ids = [aws_security_group.sg_eks]
+  subnet_ids    = var.vpc.subnets.private
   tags = {
     Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-vpc-link-core"
     Project     = var.project_name
@@ -31,7 +31,7 @@ resource "aws_apigatewayv2_integration" "alb_integration" {
   connection_type    = "VPC_LINK"
   description        = "VPC integration"
   connection_id = aws_apigatewayv2_vpc_link.core_vpc_link.id
-  integration_uri = var.integration_uri
+  integration_uri = var.api-gateway.integration_uri
 }
 
 resource "aws_apigatewayv2_route" "api_route" {
@@ -42,9 +42,9 @@ resource "aws_apigatewayv2_route" "api_route" {
 
 
 resource "aws_apigatewayv2_domain_name" "custom_domain" {
-  domain_name = var.domain_name
+  domain_name = var.api-gateway.domain_name
   domain_name_configuration {
-    certificate_arn         = var.certificate_arn
+    certificate_arn         = var.api-gateway.certificate_arn
     endpoint_type   = "REGIONAL"
     security_policy = "TLS_1_2"
   }
@@ -60,8 +60,8 @@ resource "aws_apigatewayv2_api_mapping" "mapping" {
   api_id      = aws_apigatewayv2_api.http_api.id
 }
 resource "aws_route53_record" "api_custom_domain" {
-  zone_id = var.hosted_zone_id
-  name    = var.domain_name
+  zone_id = var.api-gateway.hosted_zone_id
+  name    = var.api-gateway.domain_name
   type    = "A"
   alias {
     name                   = aws_apigatewayv2_domain_name.custom_domain.domain_name_configuration[0].target_domain_name

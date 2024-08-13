@@ -1,16 +1,16 @@
 resource "aws_db_instance" "postgres" {
   identifier           =  "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-rds-cluster-core"
-  engine               =  var.engine
-  engine_version       =  var.engine_version
-  instance_class       =  var.instance_class
-  allocated_storage    = var.rds_allocated_storage 
-  max_allocated_storage = var.rds_max_allocated_storage
+  engine               =  var.rds.engine
+  engine_version       =  var.rds.engine_version
+  instance_class       =  var.rds.instance_class
+  allocated_storage    = var.rds.rds_allocated_storage 
+  max_allocated_storage = var.rds.rds_max_allocated_storage
   storage_type          = "io2"
   iops                 = 1000
-  db_name              =  var.db_name
-  username             =  var.username
-  password             =  var.password
-  parameter_group_name =  var.parameter_group_name
+  db_name              =  var.rds.db_name
+  username             =  var.rds.username
+  password             =  var.rds.password
+  parameter_group_name =  var.rds.parameter_group_name
   skip_final_snapshot  = false 
   performance_insights_enabled      = "true"
   apply_immediately                 = true
@@ -33,5 +33,5 @@ resource "aws_db_instance" "postgres" {
 resource "aws_db_subnet_group" "rds_postgress" {
   name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-rds-subnet-group-core"
   description =  "core Postgress RDS private subnet group"
-  subnet_ids  = var.subnet_ids
+  subnet_ids  = var.vpc.subnets.private
 }
