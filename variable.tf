@@ -42,7 +42,7 @@ variable "msk" {
 variable "key_pair" {
     type = object({
       #create = bool
-      keys = list(string)
+      keys = set(string)
     })
 }
 
@@ -62,7 +62,7 @@ variable "ec2" {
 variable "secrets-manager" {
     type = object({
       #create = bool
-      keys = list(string)
+      keys = set(string)
     })  
 }
 variable "secrets-version" {

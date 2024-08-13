@@ -12,19 +12,19 @@ resource "aws_msk_cluster" "kafka_cluster" {
         volume_size = var.msk.volume_size
       }
     }
-    security_groups = [aws_security_group.sg_msk.id]
+    security_groups = [aws_security_group.sg_msk[0].id]
   }
   logging_info {
     broker_logs {
       cloudwatch_logs {
         enabled   = true
-        log_group = aws_cloudwatch_log_group.kafka.name
+        log_group = aws_cloudwatch_log_group.kafka[0].name
       }
     }
   }
   configuration_info {
-    arn = aws_msk_configuration.kafka_config.arn
-    revision = aws_msk_configuration.kafka_config.latest_revision
+    arn = aws_msk_configuration.kafka_config[0].arn
+    revision = aws_msk_configuration.kafka_config[0].latest_revision
   }
   encryption_info {
     encryption_in_transit {

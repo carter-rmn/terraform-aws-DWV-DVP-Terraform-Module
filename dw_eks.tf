@@ -176,7 +176,7 @@ resource "aws_iam_role" "aws_load_balancer_controller" {
 
 resource "aws_iam_policy" "aws_load_balancer_controller" {
   count                     = var.eks.create ? 1 : 0
-  policy = file("AWSLoadBalancerController.json")
+  policy = file("${path.module}/AWSLoadBalancerController.json")
   name   = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-AWSLoadBalancerController"
 }
 

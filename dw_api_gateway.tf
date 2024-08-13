@@ -33,7 +33,7 @@ resource "aws_apigatewayv2_integration" "alb_integration" {
   integration_method = "ANY"
   connection_type    = "VPC_LINK"
   description        = "VPC integration"
-  connection_id = aws_apigatewayv2_vpc_link.core_vpc_link.id
+  connection_id = aws_apigatewayv2_vpc_link.core_vpc_link[0].id
   integration_uri = var.api-gateway.integration_uri
 }
 
