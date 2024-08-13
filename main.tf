@@ -53,7 +53,7 @@ module "api-gateway" {
   source                = "./modules/api-gateway"
   certificate_arn       = var.api-gateway.certificate_arn
   security_group_ids = module.eks.eks_sg
-  subnet_ids = var.vpc.subnet.private.id
+  subnet_ids = module.vpc.subnet.private
   integration_uri = var.api-gateway.integration_uri
   domain_name = var.api-gateway.domain_name
   hosted_zone_id = var.api-gateway.hosted_zone_id
@@ -131,8 +131,8 @@ module "secrets-manager" {
 module "vpc" {
   count = var.vpc.create ? 1 : 0
   source = "terraform-aws-modules/vpc/aws"
-  cidr = var.vpc.cidr
-  azs = var.vpc.azs
-  public_subnets = var.vpc.subnets.public
-  private_subnets = var.vpc.subnets.private
+  cidr = var.vpc.on_use.cidr
+  azs = var.vpc.on_use.azs
+  public_subnets = var.vpc.on_use.subnets.public
+  private_subnets = var.vpc.on_use.subnets.private
 }
