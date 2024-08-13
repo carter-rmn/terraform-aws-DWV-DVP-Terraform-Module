@@ -14,7 +14,7 @@ resource "aws_apigatewayv2_api" "http_api" {
 resource "aws_apigatewayv2_vpc_link" "core_vpc_link" {
   count                     = var.api-gateway.create ? 1 : 0
   name          = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-vpc-link-core"
-  security_group_ids = [aws_security_group[0].sg_eks]
+  security_group_ids = [aws_security_group[0].sg_eks.id]
   subnet_ids    = var.vpc.subnets.private
   tags = {
     Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-vpc-link-core"
