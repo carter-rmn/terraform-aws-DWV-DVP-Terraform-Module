@@ -170,7 +170,7 @@ data "aws_iam_policy_document" "aws_load_balancer_controller_assume_role_policy"
 
 resource "aws_iam_role" "aws_load_balancer_controller" {
   count                     = var.eks.create ? 1 : 0
-  assume_role_policy = data.aws_iam_policy_document.aws_load_balancer_controller_assume_role_policy.json
+  assume_role_policy = data.aws_iam_policy_document.aws_load_balancer_controller_assume_role_policy[0].json
   name               = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-aws-load-balancer-controller"
 }
 
