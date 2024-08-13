@@ -54,7 +54,7 @@ module "api-gateway" {
   count = var.api-gateway.create ? 1 : 0
   source                = "./modules/api-gateway"
   certificate_arn       = var.api-gateway.certificate_arn
-  security_group_ids = module.eks.eks_sg
+  security_group_ids = module.eks.sg_eks
   subnet_ids = module.vpc[0].private_subnets
   integration_uri = var.api-gateway.integration_uri
   domain_name = var.api-gateway.domain_name
