@@ -2,20 +2,6 @@ variable "project_name" {}
 variable "PROJECT_CUSTOMER" {}
 variable "PROJECT_ENV" {}
 
-# variable "vpc" {
-#     type = object({
-#       create =  bool
-#       on_new = object({
-#         cidr = string
-#         azs = list(string)
-#         subnets = object({
-#           public = list(string)
-#           private = list(string)
-#         })
-#       })
-#     })
-  
-# }
 variable "vpc" {
   type = object({
     create =  bool
@@ -35,20 +21,16 @@ variable "msk" {
       number_of_broker_nodes = number
       instance_type = string
     })
-  
-
 }
 
 variable "key_pair" {
     type = object({
-      #create = bool
       keys = set(string)
     })
 }
 
 variable "ec2" {
   type = object({
-    #create = bool
     ami = string
     instances = map(object({
       instance_type = string
@@ -59,15 +41,15 @@ variable "ec2" {
     }))
   })
 }
+
 variable "secrets-manager" {
     type = object({
-      #create = bool
       keys = set(string)
     })  
 }
+
 variable "secrets-version" {
     type = object({
-      #create = bool
       keys = set(string)
     })  
 }
@@ -97,12 +79,9 @@ variable "api-gateway" {
 
 variable "ecr" {
     type = object({
-      #create = bool
       ecr = list(string)
     })
 }
-
-
 
 variable "rds" {
     type = object({
@@ -121,7 +100,6 @@ variable "rds" {
 
 variable "s3" {
     type = object({
-      #create = bool
       names = list(string)
     })
 }

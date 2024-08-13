@@ -5,7 +5,6 @@ resource "aws_instance" "ec2s" {
   key_name      = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-ec2-${element(split("-", each.key), 0)}"
   user_data                   = file("${path.module}/db.sh")
   vpc_security_group_ids = [aws_security_group.sg_mongo.id,aws_security_group.sg_ssh.id]
-  #subnet_id = element(each.value.public ? (var.vpc.subnets.public) : (var.vpc.subnets.private), each.value.subnet_index)
   subnet_id = element(
   each.value.public ? var.vpc.subnets.public : var.vpc.subnets.private,
   each.value.subnet_index
