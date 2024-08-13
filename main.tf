@@ -123,3 +123,8 @@ module "secrets-manager" {
   PROJECT_ENV = var.PROJECT_ENV
   depends_on = [module.key_pair]
 }
+
+module "vpc" {
+  count = var.vpc.create ? 1 : 0
+  source = "terraform-aws-modules/vpc/aws"
+}
