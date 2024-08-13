@@ -127,11 +127,19 @@ module "secrets-manager" {
   count = var.secrets-manager.create ? 1 : 0
   source = "./modules/secrets-manager"
   keys = var.secrets-manager.keys
-  secret_string = module.key_pair.tls_private_key[each.key]
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV
   depends_on = [module.key_pair]
+}
+
+module "secrets-version" {
+  count = var.secrets-version.create ? 1 : 0
+  source = "./modules/secrets-version"
+  keys = var.secrets-version.keys
+  secret_id = module.secrets-manager.secret_id
+  secret_string = module.key_pair.tls_private_keys
+  
 }
 
 module "vpc" {
