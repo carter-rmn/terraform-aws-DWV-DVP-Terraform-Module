@@ -5,3 +5,6 @@ output "aws_load_balancer_controller_role_arn" {
 output "sg_eks" {
   value = aws_eks_cluster.data_weaver_eks_cluster.vpc_config[0].cluster_security_group_id
 }
+output "eks" {
+  value = module.eks
+}
