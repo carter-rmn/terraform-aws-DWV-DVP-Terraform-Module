@@ -124,7 +124,7 @@ module "secrets-manager" {
   depends_on = [module.key_pair]
 }
 
-# module "vpc" {
-#   count = var.vpc.create ? 1 : 0
-#   source = "terraform-aws-modules/vpc/aws"
-# }
+module "vpc" {
+  count = var.vpc.create ? 1 : 0
+  source = "terraform-aws-modules/vpc/aws"
+}
