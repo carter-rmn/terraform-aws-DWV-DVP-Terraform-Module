@@ -137,9 +137,10 @@ module "secrets-version" {
   count = var.secrets-version.create ? 1 : 0
   source = "./modules/secrets-version"
   keys = var.secrets-version.keys
-  secret_id = module.secrets-manager.secret_id
-  secret_string = module.key_pair.tls_private_keys
-  
+  # secret_id = module.secrets-manager.secret_id
+  # secret_string = module.key_pair.tls_private_keys
+  secret_id     = { for key in var.secrets_version.keys : key => module.secrets_manager.secret_id[key] }
+  secret_string = { for key in var.secrets_version.keys : key => module.key_pair.tls_private_keys[key] }
 }
 
 module "vpc" {
