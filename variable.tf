@@ -3,18 +3,16 @@ variable "PROJECT_CUSTOMER" {}
 variable "PROJECT_ENV" {}
 
 variable "vpc" {
-    type = object({
-      create =  bool
-      on_new = object({
-        cidr = string
-        azs = list(string)
-        subnets = object({
-          public = list(string)
-          private = list(string)
-        })
-      })
+  type = object({
+    create =  bool
+    vpc_id = string
+    cidr = string
+    azs = list(string)
+    subnets = object({
+      public = list(string)
+      private = list(string)
     })
-  
+  })
 }
 variable "msk" {
     type = object({
@@ -23,35 +21,36 @@ variable "msk" {
       number_of_broker_nodes = number
       instance_type = string
     })
-  
-
 }
 
 variable "key_pair" {
     type = object({
-      create = bool
-      keys = map(any)
+      keys = set(string)
     })
 }
 
 variable "ec2" {
   type = object({
-    create = bool
     ami = string
     instances = map(object({
       instance_type = string
       subnet_index  = number
       volume_size   = number
-      associate_public_ip_address = bool
+      public = bool
       instance_profile = string
     }))
   })
 }
+
 variable "secrets-manager" {
     type = object({
-      create = bool
-      keys = map(any)
-      secret_string = map (string)
+      keys = set(string)
+    })  
+}
+
+variable "secrets-version" {
+    type = object({
+      keys = set(string)
     })  
 }
 
@@ -64,7 +63,6 @@ variable "eks" {
       fargate_namespace_3 = string
       fargate_namespace_4 = string
       fargate_namespace_5 = string
-      eks_role_name = string
       aws_eks_cluster_version = string
     })
 }
@@ -81,11 +79,9 @@ variable "api-gateway" {
 
 variable "ecr" {
     type = object({
-      create = bool
+      ecr = list(string)
     })
 }
-
-
 
 variable "rds" {
     type = object({
@@ -97,17 +93,13 @@ variable "rds" {
       username = string
       password = string
       parameter_group_name = string
-       rds = object({
-        allocated_storage = number
-        max_allocated_storage = number
-        backup_retention_period = number
-      })
+      rds_allocated_storage = number
+      rds_max_allocated_storage = number
     })  
 }
 
 variable "s3" {
     type = object({
-      create = bool
       names = list(string)
     })
 }
@@ -115,13 +107,11 @@ variable "s3" {
 variable "redis" {
     type = object({
       create = bool
-      redis = object({
-        engine_version = string
-        node = string
-        num_shards = number
-        num_replicas_per_shard = number
-        snapshot_retention_limit = number
-      })
+      redis_engine_version = string
+      redis_node = string
+      redis_num_shards = number
+      redis_num_replicas_per_shard = number
+      redis_snapshot_retention_limit = number
     })
   
 }

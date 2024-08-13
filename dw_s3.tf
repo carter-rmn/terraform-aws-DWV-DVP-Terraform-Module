@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "bucket" {
-  for_each = {for key in var.names : key=>key}
+  for_each = {for key in var.s3.names : key=>key}
   bucket = each.key
 
   tags = {
