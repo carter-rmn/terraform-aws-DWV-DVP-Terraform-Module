@@ -62,9 +62,9 @@ resource "aws_apigatewayv2_stage" "core_stage" {
 }
 resource "aws_apigatewayv2_api_mapping" "mapping" {
   count                     = var.api-gateway.create ? 1 : 0
-  domain_name = aws_apigatewayv2_domain_name.custom_domain.domain_name
-  stage       = aws_apigatewayv2_stage.core_stage.name
-  api_id      = aws_apigatewayv2_api.http_api.id
+  domain_name = aws_apigatewayv2_domain_name.custom_domain[0].domain_name
+  stage       = aws_apigatewayv2_stage.core_stage[0].name
+  api_id      = aws_apigatewayv2_api.http_api[0].id
 }
 resource "aws_route53_record" "api_custom_domain" {
   count                     = var.api-gateway.create ? 1 : 0

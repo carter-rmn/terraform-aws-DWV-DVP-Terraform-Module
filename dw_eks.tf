@@ -148,21 +148,21 @@ data "aws_iam_policy_document" "aws_load_balancer_controller_assume_role_policy"
 
     condition {
       test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.cluster.url, "https://", "")}:sub"
+      variable = "${replace(aws_iam_openid_connect_provider.cluster[0].url, "https://", "")}:sub"
       values   = ["system:serviceaccount:kube-system:aws-load-balancer-controller"]
     }
     condition {
       test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.cluster.url, "https://", "")}:aud"
+      variable = "${replace(aws_iam_openid_connect_provider.cluster[0].url, "https://", "")}:aud"
       values   = ["sts.amazonaws.com"]
     }
     condition {
       test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.cluster.url, "https://", "")}:sub"
+      variable = "${replace(aws_iam_openid_connect_provider.cluster[0].url, "https://", "")}:sub"
       values   = ["system:serviceaccount:fargate-container-insights:adot-collector"]
     }
     principals {
-      identifiers = [aws_iam_openid_connect_provider.cluster.arn]
+      identifiers = [aws_iam_openid_connect_provider.cluster[0].arn]
       type        = "Federated"
     }
   }
