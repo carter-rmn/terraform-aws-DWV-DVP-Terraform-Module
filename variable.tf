@@ -2,19 +2,40 @@ variable "project_name" {}
 variable "PROJECT_CUSTOMER" {}
 variable "PROJECT_ENV" {}
 
+# variable "vpc" {
+#     type = object({
+#       create =  bool
+#       on_new = object({
+#         cidr = string
+#         azs = list(string)
+#         subnets = object({
+#           public = list(string)
+#           private = list(string)
+#         })
+#       })
+#     })
+  
+# }
 variable "vpc" {
-    type = object({
-      create =  bool
-      on_new = object({
-        cidr = string
-        azs = list(string)
-        subnets = object({
-          public = list(string)
-          private = list(string)
-        })
+  type = object({
+    create =  bool
+    on_new = object({
+      cidr = string
+      azs = list(string)
+      subnets = object({
+        public = list(string)
+        private = list(string)
       })
     })
-  
+    on_use = object({
+      cidr = string
+      azs = list(string)
+      subnets = object({
+        public = list(string)
+        private = list(string)
+      })
+    })
+  })
 }
 variable "msk" {
     type = object({
