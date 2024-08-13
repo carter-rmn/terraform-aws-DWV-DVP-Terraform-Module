@@ -1,4 +1,5 @@
 resource "aws_apigatewayv2_api" "http_api" {
+  count                     = var.api-gateway.create ? 1 : 0
   name          = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-api-gateway-core"
   protocol_type = "HTTP"
    tags = {
@@ -11,6 +12,7 @@ resource "aws_apigatewayv2_api" "http_api" {
 }
 
 resource "aws_apigatewayv2_vpc_link" "core_vpc_link" {
+  count                     = var.api-gateway.create ? 1 : 0
   name          = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-vpc-link-core"
   security_group_ids = [aws_security_group.sg_eks]
   subnet_ids    = var.vpc.subnets.private
@@ -25,6 +27,7 @@ resource "aws_apigatewayv2_vpc_link" "core_vpc_link" {
 }
 
 resource "aws_apigatewayv2_integration" "alb_integration" {
+  count                     = var.api-gateway.create ? 1 : 0
   api_id        = aws_apigatewayv2_api.http_api.id
   integration_type = "HTTP_PROXY"
   integration_method = "ANY"
@@ -35,6 +38,7 @@ resource "aws_apigatewayv2_integration" "alb_integration" {
 }
 
 resource "aws_apigatewayv2_route" "api_route" {
+  count                     = var.api-gateway.create ? 1 : 0
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = "ANY /api/v1/public/{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.alb_integration.id}"
@@ -42,6 +46,7 @@ resource "aws_apigatewayv2_route" "api_route" {
 
 
 resource "aws_apigatewayv2_domain_name" "custom_domain" {
+  count                     = var.api-gateway.create ? 1 : 0
   domain_name = var.api-gateway.domain_name
   domain_name_configuration {
     certificate_arn         = var.api-gateway.certificate_arn
@@ -50,16 +55,19 @@ resource "aws_apigatewayv2_domain_name" "custom_domain" {
   }
 }
 resource "aws_apigatewayv2_stage" "core_stage" {
+  count                     = var.api-gateway.create ? 1 : 0
   api_id      = aws_apigatewayv2_api.http_api.id
   name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-stage-core"
   auto_deploy = true
 }
 resource "aws_apigatewayv2_api_mapping" "mapping" {
+  count                     = var.api-gateway.create ? 1 : 0
   domain_name = aws_apigatewayv2_domain_name.custom_domain.domain_name
   stage       = aws_apigatewayv2_stage.core_stage.name
   api_id      = aws_apigatewayv2_api.http_api.id
 }
 resource "aws_route53_record" "api_custom_domain" {
+  count                     = var.api-gateway.create ? 1 : 0
   zone_id = var.api-gateway.hosted_zone_id
   name    = var.api-gateway.domain_name
   type    = "A"

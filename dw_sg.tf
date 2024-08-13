@@ -55,6 +55,7 @@ resource "aws_security_group" "sg_ssh" {
   }
 }
 resource "aws_security_group" "sg_msk" {
+  count                     = var.msk.create ? 1 : 0
   name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-allow-msk"
 
   vpc_id = var.vpc.vpc_id
@@ -82,6 +83,7 @@ resource "aws_security_group" "sg_msk" {
   }
 }
 resource "aws_security_group" "sg_eks" {
+  count                     = var.eks.create ? 1 : 0
   name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-eks"
 
   vpc_id = var.vpc.vpc_id
@@ -115,6 +117,7 @@ resource "aws_security_group" "sg_eks" {
   }
 }
 resource "aws_security_group" "sg_rds" {
+  count                     = var.rds.create ? 1 : 0
   name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-allow-rds"
 
   vpc_id = var.vpc.vpc_id
@@ -142,6 +145,7 @@ resource "aws_security_group" "sg_rds" {
   }
 }
 resource "aws_security_group" "sg_redis" {
+  count                     = var.redis.create ? 1 : 0
   name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-allow-redis"
 
   vpc_id = var.vpc.vpc_id

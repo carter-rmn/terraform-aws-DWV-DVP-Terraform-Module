@@ -1,4 +1,5 @@
 resource "aws_db_instance" "postgres" {
+  count                     = var.rds.create ? 1 : 0
   identifier           =  "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-rds-cluster-core"
   engine               =  var.rds.engine
   engine_version       =  var.rds.engine_version
@@ -31,6 +32,7 @@ resource "aws_db_instance" "postgres" {
 
 }
 resource "aws_db_subnet_group" "rds_postgress" {
+  count                     = var.rds.create ? 1 : 0
   name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-rds-subnet-group-core"
   description =  "core Postgress RDS private subnet group"
   subnet_ids  = var.vpc.subnets.private
