@@ -9,7 +9,7 @@ module "ec2" {
   subnet_id = var.vpc.subnets
   instance_profile = var.ec2.instances.instance_profile
   cidr = var.vpc.on_use.cidr
-  vpc_id = module.vpc[0].id
+  vpc_id = module.vpc
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV
@@ -44,7 +44,7 @@ module "eks" {
   fargate_namespace_5   = var.eks.fargate_namespace_5
   aws_eks_cluster_version = var.eks.aws_eks_cluster_version
   cidr = var.vpc.on_use.cidr
-  vpc_id = module.vpc[0].id
+  vpc_id = module.vpc
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV
@@ -55,7 +55,7 @@ module "api-gateway" {
   source                = "./modules/api-gateway"
   certificate_arn       = var.api-gateway.certificate_arn
   security_group_ids = module.eks.eks_sg
-  subnet_ids = module.vpc.subnet.private
+  subnet_ids = module.vpc[0].private_subnets
   integration_uri = var.api-gateway.integration_uri
   domain_name = var.api-gateway.domain_name
   hosted_zone_id = var.api-gateway.hosted_zone_id
@@ -68,12 +68,12 @@ module "api-gateway" {
 module "msk" {
     count = var.msk.create ? 1 : 0
     source = "./modules/msk"
-    subnet_ids         = module.vpc.private_subnets
+    subnet_ids         = module.vpc[0].private_subnets
     number_of_broker_nodes = var.msk.number_of_broker_nodes
     instance_type = var.msk.instance_type
     volume_size = var.msk.volume_size
     cidr = var.vpc.on_use.cidr
-    vpc_id = module.vpc[0].id
+    vpc_id = module.vpc
     project_name    = var.project_name
     PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
     PROJECT_ENV = var.PROJECT_ENV 
@@ -92,7 +92,7 @@ module "rds" {
     rds_allocated_storage = var.rds.rds_allocated_storage
     rds_max_allocated_storage = var.rds.rds_max_allocated_storage
     cidr = var.vpc.on_use.cidr
-    vpc_id = module.vpc[0].id
+    vpc_id = module.vpc
     project_name    = var.project_name
     PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
     PROJECT_ENV = var.PROJECT_ENV
@@ -115,11 +115,11 @@ module "redis" {
     redis_num_replicas_per_shard    =   var.redis.redis_num_replicas_per_shard
     redis_snapshot_retention_limit    =   var.redis.redis_snapshot_retention_limit
     cidr = var.vpc.on_use.cidr
-    vpc_id = module.vpc[0].id
+    vpc_id = module.vpc
     project_name    = var.project_name
     PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
     PROJECT_ENV = var.PROJECT_ENV 
-    subnet_ids = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
+    subnet_ids = [module.vpc[0].private_subnets[0], module.vpc[0].private_subnets[1]]
 }
 
 module "secrets-manager" {
