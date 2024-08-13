@@ -72,7 +72,7 @@ variable "secrets-manager" {
     type = object({
       create = bool
       keys = list(string)
-      secret_string = map (string)
+      secret_string = list(string)
     })  
 }
 
