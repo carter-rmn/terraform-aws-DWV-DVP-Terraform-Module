@@ -35,7 +35,7 @@ module "ecr" {
 module "eks" {
   count = var.eks.create ? 1 : 0
   source                = "./modules/eks"
-  private_id            = module.vpc.private_subnets
+  private_subnets            = module.vpc[0].private_subnets
   fargate_namespace_1   = var.eks.fargate_namespace_1
   fargate_namespace_2   = var.eks.fargate_namespace_2
   fargate_namespace_3   = var.eks.fargate_namespace_3

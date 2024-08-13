@@ -6,7 +6,7 @@ resource "aws_eks_cluster" "data_weaver_eks_cluster" {
 
   vpc_config {
     endpoint_public_access    = true
-    subnet_ids                = var.private_id
+    subnet_ids                = var.private_subnets
     security_group_ids        = [aws_security_group.sg_eks.id]
   }
 
@@ -24,7 +24,7 @@ resource "aws_eks_fargate_profile" "data_weaver_eks_fargate" {
   cluster_name           = aws_eks_cluster.data_weaver_eks_cluster.name
   fargate_profile_name   = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-eks-fargate-profile"
   pod_execution_role_arn = aws_iam_role.data_weaver_fargate.arn
-  subnet_ids             = var.private_id
+  subnet_ids             = var.private_subnets
 
   selector {
     namespace = "${var.fargate_namespace_1}"

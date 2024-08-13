@@ -1,4 +1,4 @@
-variable "private_id" {}
+variable "private_subnets" {}
 variable "fargate_namespace_1" {}
 variable "fargate_namespace_2" {}
 variable "fargate_namespace_3" {}
