@@ -39,9 +39,9 @@ resource "aws_apigatewayv2_integration" "alb_integration" {
 
 resource "aws_apigatewayv2_route" "api_route" {
   count                     = var.api-gateway.create ? 1 : 0
-  api_id    = aws_apigatewayv2_api.http_api.id
+  api_id    = aws_apigatewayv2_api.http_api[0].id
   route_key = "ANY /api/v1/public/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.alb_integration.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.alb_integration[0].id}"
 }
 
 
@@ -56,7 +56,7 @@ resource "aws_apigatewayv2_domain_name" "custom_domain" {
 }
 resource "aws_apigatewayv2_stage" "core_stage" {
   count                     = var.api-gateway.create ? 1 : 0
-  api_id      = aws_apigatewayv2_api.http_api.id
+  api_id      = aws_apigatewayv2_api.http_api[0].id
   name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-stage-core"
   auto_deploy = true
 }

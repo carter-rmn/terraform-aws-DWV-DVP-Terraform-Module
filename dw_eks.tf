@@ -8,7 +8,7 @@ resource "aws_eks_cluster" "data_weaver_eks_cluster" {
   vpc_config {
     endpoint_public_access    = true
     subnet_ids                = var.vpc.subnets.private
-    security_group_ids        = [aws_security_group.sg_eks.id]
+    security_group_ids        = [aws_security_group.sg_eks[0].id]
   }
 
    tags = {

@@ -68,7 +68,7 @@ variable "secrets-manager" {
 variable "secrets-version" {
     type = object({
       #create = bool
-      keys = list(string)
+      keys = set(string)
     })  
 }
 
