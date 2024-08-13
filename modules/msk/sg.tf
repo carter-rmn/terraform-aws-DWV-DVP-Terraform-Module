@@ -7,7 +7,7 @@ resource "aws_security_group" "sg_msk" {
     from_port   = 9092
     to_port     = 9092
     protocol    = "tcp"
-    cidr_blocks = [var.vpc_cidr]
+    cidr_blocks = [var.cidr]
   }
 
   egress {

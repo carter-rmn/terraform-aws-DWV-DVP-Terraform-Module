@@ -8,7 +8,7 @@ resource "aws_security_group" "sg_mongo" {
     from_port   = 27017
     to_port     = 27017
     protocol    = "tcp"
-    cidr_blocks = [var.vpc_cidr]
+    cidr_blocks = [var.cidr]
   }
 
   egress {
@@ -36,7 +36,7 @@ resource "aws_security_group" "sg_ssh" {
     from_port   = 22
     to_port     = 22 
     protocol    = "tcp"
-    cidr_blocks = [var.vpc_cidr]
+    cidr_blocks = [var.cidr]
   }
 
   egress {
