@@ -28,7 +28,7 @@ resource "aws_apigatewayv2_vpc_link" "core_vpc_link" {
 
 resource "aws_apigatewayv2_integration" "alb_integration" {
   count                     = var.api-gateway.create ? 1 : 0
-  api_id        = aws_apigatewayv2_api.http_api.id
+  api_id        = aws_apigatewayv2_api.http_api[0].id
   integration_type = "HTTP_PROXY"
   integration_method = "ANY"
   connection_type    = "VPC_LINK"
@@ -72,8 +72,8 @@ resource "aws_route53_record" "api_custom_domain" {
   name    = var.api-gateway.domain_name
   type    = "A"
   alias {
-    name                   = aws_apigatewayv2_domain_name.custom_domain.domain_name_configuration[0].target_domain_name
-    zone_id                = aws_apigatewayv2_domain_name.custom_domain.domain_name_configuration[0].hosted_zone_id
+    name                   = aws_apigatewayv2_domain_name.custom_domain[0].domain_name_configuration[0].target_domain_name
+    zone_id                = aws_apigatewayv2_domain_name.custom_domain[0].domain_name_configuration[0].hosted_zone_id
     evaluate_target_health = false
   }
 }

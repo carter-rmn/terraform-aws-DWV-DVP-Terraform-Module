@@ -2,7 +2,7 @@ resource "aws_eks_cluster" "data_weaver_eks_cluster" {
   count                     = var.eks.create ? 1 : 0
   name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-eks-cluster"
   enabled_cluster_log_types = ["api", "audit", "authenticator","controllerManager","scheduler"]
-  role_arn                  = aws_iam_role.data_weaver_eks.arn
+  role_arn                  = aws_iam_role.data_weaver_eks[0].arn
   version                   = var.eks.aws_eks_cluster_version
 
   vpc_config {
@@ -23,9 +23,9 @@ resource "aws_eks_cluster" "data_weaver_eks_cluster" {
 ### Adding Fargate profile for EKS cluster ###
 resource "aws_eks_fargate_profile" "data_weaver_eks_fargate" {
   count                     = var.eks.create ? 1 : 0
-  cluster_name           = aws_eks_cluster.data_weaver_eks_cluster.name
+  cluster_name           = aws_eks_cluster.data_weaver_eks_cluster[0].name
   fargate_profile_name   = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-eks-fargate-profile"
-  pod_execution_role_arn = aws_iam_role.data_weaver_fargate.arn
+  pod_execution_role_arn = aws_iam_role.data_weaver_fargate[0].arn
   subnet_ids             = var.vpc.subnets.private
 
   selector {
@@ -91,13 +91,13 @@ resource "aws_iam_policy" "EksFargatePodExecutionRolePolicy" {
 
 resource "aws_iam_role_policy_attachment" "EksFargatePodExecutionRolepolicy" {
   count                     = var.eks.create ? 1 : 0
-  policy_arn = aws_iam_policy.EksFargatePodExecutionRolePolicy.arn
-  role       = aws_iam_role.data_weaver_fargate.name
+  policy_arn = aws_iam_policy.EksFargatePodExecutionRolePolicy[0].arn
+  role       = aws_iam_role.data_weaver_fargate[0].name
 }
 resource "aws_iam_role_policy_attachment" "AmazonEKSFargatePodExecutionRolePolicy" {
   count                     = var.eks.create ? 1 : 0
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy"
-  role       = aws_iam_role.data_weaver_fargate.name
+  role       = aws_iam_role.data_weaver_fargate[0].name
 }
 resource "aws_iam_role" "data_weaver_eks" {
   count                     = var.eks.create ? 1 : 0
@@ -117,28 +117,28 @@ resource "aws_iam_role" "data_weaver_eks" {
 resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
   count                     = var.eks.create ? 1 : 0
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-  role       = aws_iam_role.data_weaver_eks.name
+  role       = aws_iam_role.data_weaver_eks[0].name
 }
 resource "aws_iam_role_policy_attachment" "example-AmazonEKSVPCResourceController" {
   count                     = var.eks.create ? 1 : 0
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
-  role       = aws_iam_role.data_weaver_eks.name
+  role       = aws_iam_role.data_weaver_eks[0].name
 }
 data "aws_eks_cluster_auth" "eks" {
   count                     = var.eks.create ? 1 : 0
-  name = aws_eks_cluster.data_weaver_eks_cluster.id
+  name = aws_eks_cluster.data_weaver_eks_cluster[0].id
 }
 
 data "tls_certificate" "cluster" {
   count                     = var.eks.create ? 1 : 0
-  url = aws_eks_cluster.data_weaver_eks_cluster.identity.0.oidc.0.issuer
+  url = aws_eks_cluster.data_weaver_eks_cluster[0].identity.0.oidc.0.issuer
 }
 
 resource "aws_iam_openid_connect_provider" "cluster" {
   count                     = var.eks.create ? 1 : 0
   client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = [data.tls_certificate.cluster.certificates.0.sha1_fingerprint]
-  url             = aws_eks_cluster.data_weaver_eks_cluster.identity.0.oidc.0.issuer
+  thumbprint_list = [data.tls_certificate.cluster[0].certificates.0.sha1_fingerprint]
+  url             = aws_eks_cluster.data_weaver_eks_cluster[0].identity.0.oidc.0.issuer
 }
 data "aws_iam_policy_document" "aws_load_balancer_controller_assume_role_policy" {
   count                     = var.eks.create ? 1 : 0
@@ -176,7 +176,7 @@ resource "aws_iam_role" "aws_load_balancer_controller" {
 
 resource "aws_iam_policy" "aws_load_balancer_controller" {
   count                     = var.eks.create ? 1 : 0
-  policy = file("./AWSLoadBalancerController.json")
+  policy = file("AWSLoadBalancerController.json")
   name   = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-AWSLoadBalancerController"
 }
 
