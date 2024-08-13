@@ -6,6 +6,7 @@ variable "fargate_namespace_4" {}
 variable "fargate_namespace_5" {}
 variable "aws_eks_cluster_version" {}
 variable "cidr" {}
+variable "vpc_id" {}
 variable "project_name" {}
 variable "PROJECT_CUSTOMER" {}
 variable "PROJECT_ENV" {}

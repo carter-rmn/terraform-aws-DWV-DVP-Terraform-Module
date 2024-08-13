@@ -9,6 +9,7 @@ variable "subnet_ids" {}
 variable "rds_allocated_storage" {}
 variable "rds_max_allocated_storage" {}
 variable "cidr" {}
+variable "vpc_id" {}
 variable "project_name" {}
 variable "PROJECT_CUSTOMER" {}
 variable "PROJECT_ENV" {}

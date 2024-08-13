@@ -5,6 +5,7 @@ variable "redis_num_replicas_per_shard" {}
 variable "redis_snapshot_retention_limit" {}
 variable "subnet_ids" {}
 variable "cidr" {}
+variable "vpc_id" {}
 variable "project_name" {}
 variable "PROJECT_CUSTOMER" {}
 variable "PROJECT_ENV" {}

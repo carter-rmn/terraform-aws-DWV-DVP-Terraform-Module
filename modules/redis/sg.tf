@@ -1,7 +1,7 @@
 resource "aws_security_group" "sg_redis" {
   name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-allow-redis"
 
-  vpc_id = var.vpc.id
+  vpc_id = var.vpc_id
 
   ingress {
     from_port   = 6379

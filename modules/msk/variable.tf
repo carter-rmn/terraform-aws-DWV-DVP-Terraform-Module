@@ -6,3 +6,4 @@ variable "project_name" {}
 variable "PROJECT_CUSTOMER" {}
 variable "PROJECT_ENV" {}
 variable "cidr" {}
+variable "vpc_id" {}

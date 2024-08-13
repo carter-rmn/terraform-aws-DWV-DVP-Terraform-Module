@@ -9,3 +9,4 @@ variable "instance_type" {}
 variable "cidr" {}
 variable "associate_public_ip_address" {}
 variable "volume_size" {}
+variable "vpc_id" {}

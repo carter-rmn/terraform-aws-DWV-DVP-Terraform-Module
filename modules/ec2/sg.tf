@@ -2,7 +2,7 @@ resource "aws_security_group" "sg_mongo" {
   name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-mongo"
   description = "Allow Mongo Connection"
 
-  vpc_id = var.vpc.id
+  vpc_id = var.vpc_id
 
   ingress {
     from_port   = 27017
