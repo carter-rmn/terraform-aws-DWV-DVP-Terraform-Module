@@ -51,7 +51,7 @@ variable "msk" {
 variable "key_pair" {
     type = object({
       create = bool
-      keys = map(any)
+      keys = list(string)
     })
 }
 
@@ -71,7 +71,7 @@ variable "ec2" {
 variable "secrets-manager" {
     type = object({
       create = bool
-      keys = map(any)
+      keys = list(string)
       secret_string = map (string)
     })  
 }
@@ -102,7 +102,7 @@ variable "api-gateway" {
 variable "ecr" {
     type = object({
       create = bool
-      ecr = map(any)
+      ecr = list(string)
     })
 }
 
