@@ -62,6 +62,7 @@ module "api-gateway" {
   project_name    = var.project_name
   PROJECT_CUSTOMER    = var.PROJECT_CUSTOMER
   PROJECT_ENV = var.PROJECT_ENV
+  depends_on       = [module.eks]
 
 }
 
