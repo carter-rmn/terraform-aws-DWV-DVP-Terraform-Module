@@ -14,16 +14,6 @@ variable "vpc" {
     })
   })
 }
-variable "subnet_az_mapping" {
-  type = map(object({
-    az = string
-  }))
-  description = "Mapping of subnet IDs to their availability zones."
-}
-variable "desired_azs" {
-  type = list(string) 
-  default = ["us-east-1a", "us-east-1b"]
-}
 variable "msk" {
     type = object({
       create = bool
