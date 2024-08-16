@@ -78,10 +78,7 @@ resource "aws_iam_policy" "EksFargatePodExecutionRolePolicy" {
           "logs:PutLogEvents",
         ]
         Resource = [
-          "arn:aws:eks:us-east-1:760088588455:cluster/dev-data-weaver",
-          "arn:aws:eks:us-east-1:760088588455:cluster/dev-test",
-          "*",
-          "arn:aws:ecr:us-east-1:760088588455:repository/*"
+          "*"
         ]
         Effect   = "Allow"
       }
