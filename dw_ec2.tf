@@ -15,7 +15,7 @@ resource "aws_instance" "ec2s" {
   root_block_device {
     volume_size = each.value.volume_size
     tags = {
-      Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-ec2-${each.key}"
+      Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-ebs-${each.key}"
       Project     = var.project_name
       Customer    = var.PROJECT_CUSTOMER
       Environment = var.PROJECT_ENV
