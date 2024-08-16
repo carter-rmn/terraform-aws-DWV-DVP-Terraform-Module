@@ -1,7 +1,11 @@
 resource "aws_memorydb_subnet_group" "redis_subnet_group" {
   count                     = var.redis.create ? 1 : 0
   name = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-redis-subnet-group"
-  subnet_ids = var.vpc.subnets.private
+  subnet_ids = [
+    var.vpc.subnets.private[0],
+    var.vpc.subnets.private[1]
+  ]
+
 
   tags = {
     Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-redis-subnet-group"
