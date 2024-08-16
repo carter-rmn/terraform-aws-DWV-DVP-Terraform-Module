@@ -79,7 +79,7 @@ variable "api-gateway" {
 
 variable "ecr" {
     type = object({
-      ecr = list(string)
+      ecr = map(string)
     })
 }
 
