@@ -8,7 +8,7 @@ resource "aws_security_group" "sg_mongo" {
     from_port   = 27017
     to_port     = 27017
     protocol    = "tcp"
-    cidr_blocks = [var.vpc.cidr]
+    cidr_blocks = var.vpc.cidr
   }
 
   egress {
@@ -36,7 +36,7 @@ resource "aws_security_group" "sg_ssh" {
     from_port   = 22
     to_port     = 22 
     protocol    = "tcp"
-    cidr_blocks = [var.vpc.cidr]
+    cidr_blocks = var.vpc.cidr
   }
 
   egress {
@@ -64,7 +64,7 @@ resource "aws_security_group" "sg_msk" {
     from_port   = 9092
     to_port     = 9092
     protocol    = "tcp"
-    cidr_blocks = [var.vpc.cidr]
+    cidr_blocks = var.vpc.cidr
   }
 
   egress {
@@ -92,13 +92,13 @@ resource "aws_security_group" "sg_eks" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = [var.vpc.cidr]
+    cidr_blocks = var.vpc.cidr
   }
   ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = [var.vpc.cidr]
+    cidr_blocks = var.vpc.cidr
   }
 
   egress {
@@ -126,7 +126,7 @@ resource "aws_security_group" "sg_rds" {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks = [var.vpc.cidr]
+    cidr_blocks = var.vpc.cidr
   }
 
   egress {
@@ -154,7 +154,7 @@ resource "aws_security_group" "sg_redis" {
     from_port   = 6379
     to_port     = 6379
     protocol    = "tcp"
-    cidr_blocks = [var.vpc.cidr]
+    cidr_blocks = var.vpc.cidr
   }
 
   egress {
@@ -182,13 +182,13 @@ resource "aws_security_group" "sg_api_gateway" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = [var.vpc.cidr]
+    cidr_blocks = var.vpc.cidr
   }
   ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = [var.vpc.cidr]
+    cidr_blocks = var.vpc.cidr
   }
 
   egress {
