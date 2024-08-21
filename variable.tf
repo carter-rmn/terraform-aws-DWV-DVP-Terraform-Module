@@ -6,7 +6,7 @@ variable "vpc" {
   type = object({
     create =  bool
     vpc_id = string
-    cidr = string
+    cidr = list(string)
     azs = list(string)
     subnets = object({
       public = list(string)
