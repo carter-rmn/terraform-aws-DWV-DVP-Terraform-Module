@@ -1,4 +1,7 @@
 locals {
+  dwv_project_name = "${var.PROJECT_PRENAME}dwv"
+  dwv_prefix       = "${local.dwv_project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}"
+
   keys = { for item in distinct([for item, _ in local.ec2.instances : element(split("-", item), 0)]) : item => {} }
 
   ecr = {
@@ -16,7 +19,5 @@ locals {
           public = ""
         }
       }
-  }
-
-  
+  }  
 }

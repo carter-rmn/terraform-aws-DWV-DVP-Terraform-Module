@@ -1,6 +1,6 @@
 resource "aws_db_instance" "postgres" {
   count                     = var.rds.create ? 1 : 0
-  identifier           =  "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-rds-cluster-core"
+  identifier           =  "${local.dwv_prefix}-rds-cluster-core"
   engine               =  var.rds.engine
   engine_version       =  var.rds.engine_version
   instance_class       =  var.rds.instance_class
@@ -23,7 +23,7 @@ resource "aws_db_instance" "postgres" {
   vpc_security_group_ids = [aws_security_group.sg_rds[0].id]
   db_subnet_group_name = aws_db_subnet_group.rds_postgress[0].id
   tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-rds-cluster-core"
+    Name        = "${local.dwv_prefix}-rds-cluster-core"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
@@ -33,7 +33,7 @@ resource "aws_db_instance" "postgres" {
 }
 resource "aws_db_subnet_group" "rds_postgress" {
   count                     = var.rds.create ? 1 : 0
-  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-rds-subnet-group-core"
+  name        = "${local.dwv_prefix}-rds-subnet-group-core"
   description =  "core Postgress RDS private subnet group"
   subnet_ids  = var.vpc.subnets.private
 }

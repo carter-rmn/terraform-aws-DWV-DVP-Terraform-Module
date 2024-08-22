@@ -1,9 +1,9 @@
 resource "aws_secretsmanager_secret" "secret_ec2s" {
   for_each = var.secrets-manager.keys
-  name     = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-secret-key-${each.key}"
+  name     = "${local.dwv_prefix}-secret-key-${each.key}"
 
   tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-secret-key-${each.key}"
+    Name        = "${local.dwv_prefix}-secret-key-${each.key}"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV

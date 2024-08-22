@@ -1,6 +1,6 @@
 resource "aws_memorydb_subnet_group" "redis_subnet_group" {
   count                     = var.redis.create ? 1 : 0
-  name = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-redis-subnet-group"
+  name = "${local.dwv_prefix}-redis-subnet-group"
   subnet_ids = [
     var.vpc.subnets.private[0],
     var.vpc.subnets.private[1]
@@ -8,7 +8,7 @@ resource "aws_memorydb_subnet_group" "redis_subnet_group" {
 
 
   tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-redis-subnet-group"
+    Name        = "${local.dwv_prefix}-redis-subnet-group"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
@@ -19,7 +19,7 @@ resource "aws_memorydb_subnet_group" "redis_subnet_group" {
 resource "aws_memorydb_cluster" "redis" {
   count                     = var.redis.create ? 1 : 0
   acl_name                 = "open-access"
-  name                     = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-redis-cluster"
+  name                     = "${local.dwv_prefix}-redis-cluster"
   engine_version           = var.redis.redis_engine_version
   node_type                = var.redis.redis_node
   num_shards               = var.redis.redis_num_shards
@@ -30,7 +30,7 @@ resource "aws_memorydb_cluster" "redis" {
   tls_enabled              = "false"
 
   tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-redis-subnet-group"
+    Name        = "${local.dwv_prefix}-redis-subnet-group"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV

@@ -2,7 +2,7 @@ resource "aws_instance" "ec2s" {
   for_each = var.ec2.instances
   ami           = var.ec2.ami
   instance_type = each.value.instance_type
-  key_name      = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-ec2-${element(split("-", each.key), 0)}"
+  key_name      = "${local.dwv_prefix}-ec2-${element(split("-", each.key), 0)}"
   user_data                   = file("${path.module}/db.sh")
   vpc_security_group_ids = [aws_security_group.sg_mongo.id,aws_security_group.sg_ssh.id]
   subnet_id = element(
@@ -15,7 +15,7 @@ resource "aws_instance" "ec2s" {
   root_block_device {
     volume_size = each.value.volume_size
     tags = {
-      Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-ebs-${each.key}"
+      Name        = "${local.dwv_prefix}-ebs-${each.key}"
       Project     = var.project_name
       Customer    = var.PROJECT_CUSTOMER
       Environment = var.PROJECT_ENV
@@ -24,7 +24,7 @@ resource "aws_instance" "ec2s" {
   }
 
   tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-ec2-${each.key}"
+    Name        = "${local.dwv_prefix}-ec2-${each.key}"
     Short       = "${each.key}"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER

@@ -1,5 +1,5 @@
 resource "aws_security_group" "sg_mongo" {
-  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-mongo"
+  name        = "${local.dwv_prefix}-sg-mongo"
   description = "Allow Mongo Connection"
 
   vpc_id = var.vpc.vpc_id
@@ -19,7 +19,7 @@ resource "aws_security_group" "sg_mongo" {
   }
 
   tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-mongo"
+    Name        = "${local.dwv_prefix}-sg-mongo"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
@@ -28,7 +28,7 @@ resource "aws_security_group" "sg_mongo" {
 }
 
 resource "aws_security_group" "sg_ssh" {
-  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-ssh"
+  name        = "${local.dwv_prefix}-sg-ssh"
 
   vpc_id = var.vpc.vpc_id
 
@@ -47,7 +47,7 @@ resource "aws_security_group" "sg_ssh" {
   }
 
    tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-ssh"
+    Name        = "${local.dwv_prefix}-sg-ssh"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
@@ -56,7 +56,7 @@ resource "aws_security_group" "sg_ssh" {
 }
 resource "aws_security_group" "sg_msk" {
   count                     = var.msk.create ? 1 : 0
-  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-allow-msk"
+  name        = "${local.dwv_prefix}-sg-allow-msk"
 
   vpc_id = var.vpc.vpc_id
 
@@ -75,7 +75,7 @@ resource "aws_security_group" "sg_msk" {
   }
 
   tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-allow-msk"
+    Name        = "${local.dwv_prefix}-sg-allow-msk"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
@@ -84,7 +84,7 @@ resource "aws_security_group" "sg_msk" {
 }
 resource "aws_security_group" "sg_eks" {
   count                     = var.eks.create ? 1 : 0
-  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-eks"
+  name        = "${local.dwv_prefix}-sg-eks"
 
   vpc_id = var.vpc.vpc_id
 
@@ -109,7 +109,7 @@ resource "aws_security_group" "sg_eks" {
   }
 
   tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-eks"
+    Name        = "${local.dwv_prefix}-sg-eks"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
@@ -118,7 +118,7 @@ resource "aws_security_group" "sg_eks" {
 }
 resource "aws_security_group" "sg_rds" {
   count                     = var.rds.create ? 1 : 0
-  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-allow-rds"
+  name        = "${local.dwv_prefix}-sg-allow-rds"
 
   vpc_id = var.vpc.vpc_id
 
@@ -137,7 +137,7 @@ resource "aws_security_group" "sg_rds" {
   }
 
   tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-allow-rds"
+    Name        = "${local.dwv_prefix}-sg-allow-rds"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
@@ -146,7 +146,7 @@ resource "aws_security_group" "sg_rds" {
 }
 resource "aws_security_group" "sg_redis" {
   count                     = var.redis.create ? 1 : 0
-  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-allow-redis"
+  name        = "${local.dwv_prefix}-sg-allow-redis"
 
   vpc_id = var.vpc.vpc_id
 
@@ -165,7 +165,7 @@ resource "aws_security_group" "sg_redis" {
   }
 
   tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-allow-redis"
+    Name        = "${local.dwv_prefix}-sg-allow-redis"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
@@ -174,7 +174,7 @@ resource "aws_security_group" "sg_redis" {
 }
 resource "aws_security_group" "sg_api_gateway" {
   count                     = var.api-gateway.create ? 1 : 0
-  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-api-gateway"
+  name        = "${local.dwv_prefix}-sg-api-gateway"
 
   vpc_id = var.vpc.vpc_id
 
@@ -199,7 +199,7 @@ resource "aws_security_group" "sg_api_gateway" {
   }
 
   tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-sg-api-gateway"
+    Name        = "${local.dwv_prefix}-sg-api-gateway"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV

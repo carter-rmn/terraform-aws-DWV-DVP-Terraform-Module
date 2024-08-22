@@ -1,9 +1,9 @@
 resource "aws_apigatewayv2_api" "http_api" {
   count                     = var.api-gateway.create ? 1 : 0
-  name          = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-api-gateway-core"
+  name          = "${local.dwv_prefix}-api-gateway-core"
   protocol_type = "HTTP"
    tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-api-gateway-core"
+    Name        = "${local.dwv_prefix}-api-gateway-core"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
@@ -13,11 +13,11 @@ resource "aws_apigatewayv2_api" "http_api" {
 
 resource "aws_apigatewayv2_vpc_link" "core_vpc_link" {
   count                     = var.api-gateway.create ? 1 : 0
-  name          = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-vpc-link-core"
+  name          = "${local.dwv_prefix}-vpc-link-core"
   security_group_ids = [aws_security_group.sg_api_gateway[0].id]
   subnet_ids    = var.vpc.subnets.private
   tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-vpc-link-core"
+    Name        = "${local.dwv_prefix}-vpc-link-core"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
@@ -57,7 +57,7 @@ resource "aws_apigatewayv2_domain_name" "custom_domain" {
 resource "aws_apigatewayv2_stage" "core_stage" {
   count                     = var.api-gateway.create ? 1 : 0
   api_id      = aws_apigatewayv2_api.http_api[0].id
-  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-stage-core"
+  name        = "${local.dwv_prefix}-stage-core"
   auto_deploy = true
 }
 resource "aws_apigatewayv2_api_mapping" "mapping" {

@@ -1,6 +1,6 @@
 resource "aws_eks_cluster" "data_weaver_eks_cluster" {
   count                     = var.eks.create ? 1 : 0
-  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-eks-cluster"
+  name        = "${local.dwv_prefix}-eks-cluster"
   enabled_cluster_log_types = ["api", "audit", "authenticator","controllerManager","scheduler"]
   role_arn                  = aws_iam_role.data_weaver_eks[0].arn
   version                   = var.eks.aws_eks_cluster_version
@@ -12,7 +12,7 @@ resource "aws_eks_cluster" "data_weaver_eks_cluster" {
   }
 
    tags = {
-    Name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-eks"
+    Name        = "${local.dwv_prefix}-eks"
     Project     = var.project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
@@ -24,7 +24,7 @@ resource "aws_eks_cluster" "data_weaver_eks_cluster" {
 resource "aws_eks_fargate_profile" "data_weaver_eks_fargate" {
   count                     = var.eks.create ? 1 : 0
   cluster_name           = aws_eks_cluster.data_weaver_eks_cluster[0].name
-  fargate_profile_name   = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-eks-fargate-profile"
+  fargate_profile_name   = "${local.dwv_prefix}-eks-fargate-profile"
   pod_execution_role_arn = aws_iam_role.data_weaver_fargate[0].arn
   subnet_ids             = var.vpc.subnets.private
 
@@ -47,7 +47,7 @@ resource "aws_eks_fargate_profile" "data_weaver_eks_fargate" {
 }
 resource "aws_iam_role" "data_weaver_fargate" {
   count                     = var.eks.create ? 1 : 0
-  name = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-eks-fargate-profile"
+  name = "${local.dwv_prefix}-eks-fargate-profile"
 
   assume_role_policy = jsonencode({
     Statement = [{
@@ -62,7 +62,7 @@ resource "aws_iam_role" "data_weaver_fargate" {
 }
 resource "aws_iam_policy" "EksFargatePodExecutionRolePolicy" {
   count                     = var.eks.create ? 1 : 0
-  name        = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-EksFargatePodExecutionRole-policy"
+  name        = "${local.dwv_prefix}-EksFargatePodExecutionRole-policy"
   description = "Policy for EKS Fargate Pod Execution Role"
 
   policy = jsonencode({
@@ -98,7 +98,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSFargatePodExecutionRolePolic
 }
 resource "aws_iam_role" "data_weaver_eks" {
   count                     = var.eks.create ? 1 : 0
-  name               = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-eks-cluster-iam-role"
+  name               = "${local.dwv_prefix}-eks-cluster-iam-role"
   assume_role_policy = jsonencode({
     Statement = [{
       Action = "sts:AssumeRole"
@@ -168,13 +168,13 @@ data "aws_iam_policy_document" "aws_load_balancer_controller_assume_role_policy"
 resource "aws_iam_role" "aws_load_balancer_controller" {
   count                     = var.eks.create ? 1 : 0
   assume_role_policy = data.aws_iam_policy_document.aws_load_balancer_controller_assume_role_policy[0].json
-  name               = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-aws-load-balancer-controller"
+  name               = "${local.dwv_prefix}-aws-load-balancer-controller"
 }
 
 resource "aws_iam_policy" "aws_load_balancer_controller" {
   count                     = var.eks.create ? 1 : 0
   policy = file("${path.module}/AWSLoadBalancerController.json")
-  name   = "${var.project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}-AWSLoadBalancerController"
+  name   = "${local.dwv_prefix}-AWSLoadBalancerController"
 }
 
 resource "aws_iam_role_policy_attachment" "aws_load_balancer_controller_attach" {
