@@ -16,7 +16,7 @@ resource "aws_instance" "ec2s" {
     volume_size = each.value.volume_size
     tags = {
       Name        = "${local.dwv_prefix}-ebs-${each.key}"
-      Project     = var.project_name
+      Project     = local.dwv_project_name
       Customer    = var.PROJECT_CUSTOMER
       Environment = var.PROJECT_ENV
       Terraform   = true
@@ -26,7 +26,7 @@ resource "aws_instance" "ec2s" {
   tags = {
     Name        = "${local.dwv_prefix}-ec2-${each.key}"
     Short       = "${each.key}"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true

@@ -20,7 +20,7 @@ resource "aws_security_group" "sg_mongo" {
 
   tags = {
     Name        = "${local.dwv_prefix}-sg-mongo"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true
@@ -48,7 +48,7 @@ resource "aws_security_group" "sg_ssh" {
 
    tags = {
     Name        = "${local.dwv_prefix}-sg-ssh"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true
@@ -76,7 +76,7 @@ resource "aws_security_group" "sg_msk" {
 
   tags = {
     Name        = "${local.dwv_prefix}-sg-allow-msk"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true
@@ -110,7 +110,7 @@ resource "aws_security_group" "sg_eks" {
 
   tags = {
     Name        = "${local.dwv_prefix}-sg-eks"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true
@@ -138,7 +138,7 @@ resource "aws_security_group" "sg_rds" {
 
   tags = {
     Name        = "${local.dwv_prefix}-sg-allow-rds"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true
@@ -166,7 +166,7 @@ resource "aws_security_group" "sg_redis" {
 
   tags = {
     Name        = "${local.dwv_prefix}-sg-allow-redis"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true
@@ -200,7 +200,7 @@ resource "aws_security_group" "sg_api_gateway" {
 
   tags = {
     Name        = "${local.dwv_prefix}-sg-api-gateway"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true

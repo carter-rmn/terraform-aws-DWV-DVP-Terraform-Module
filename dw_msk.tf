@@ -33,7 +33,7 @@ resource "aws_msk_cluster" "kafka_cluster" {
   }
   tags = {
     Name        = "${local.dwv_prefix}-msk-cluster"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true
@@ -46,7 +46,7 @@ resource "aws_cloudwatch_log_group" "kafka" {
   retention_in_days = 3
   tags = {
     Name        = "${local.dwv_prefix}-msk-log-group"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true

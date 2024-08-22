@@ -13,7 +13,7 @@ resource "aws_eks_cluster" "data_weaver_eks_cluster" {
 
    tags = {
     Name        = "${local.dwv_prefix}-eks"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true

@@ -4,7 +4,7 @@ resource "aws_apigatewayv2_api" "http_api" {
   protocol_type = "HTTP"
    tags = {
     Name        = "${local.dwv_prefix}-api-gateway-core"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true
@@ -18,7 +18,7 @@ resource "aws_apigatewayv2_vpc_link" "core_vpc_link" {
   subnet_ids    = var.vpc.subnets.private
   tags = {
     Name        = "${local.dwv_prefix}-vpc-link-core"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true

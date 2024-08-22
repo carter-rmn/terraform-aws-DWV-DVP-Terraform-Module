@@ -8,7 +8,7 @@ resource "aws_ecr_repository" "ecrs" {
   }
   tags = {
     Name        = "${local.dwv_prefix}-ecr-${each.key}"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true

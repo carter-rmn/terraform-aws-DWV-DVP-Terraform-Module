@@ -9,7 +9,7 @@ resource "aws_memorydb_subnet_group" "redis_subnet_group" {
 
   tags = {
     Name        = "${local.dwv_prefix}-redis-subnet-group"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true
@@ -31,7 +31,7 @@ resource "aws_memorydb_cluster" "redis" {
 
   tags = {
     Name        = "${local.dwv_prefix}-redis-subnet-group"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true

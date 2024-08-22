@@ -24,7 +24,7 @@ resource "aws_db_instance" "postgres" {
   db_subnet_group_name = aws_db_subnet_group.rds_postgress[0].id
   tags = {
     Name        = "${local.dwv_prefix}-rds-cluster-core"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true

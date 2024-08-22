@@ -4,7 +4,7 @@ resource "aws_secretsmanager_secret" "secret_ec2s" {
 
   tags = {
     Name        = "${local.dwv_prefix}-secret-key-${each.key}"
-    Project     = var.project_name
+    Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER
     Environment = var.PROJECT_ENV
     Terraform   = true
