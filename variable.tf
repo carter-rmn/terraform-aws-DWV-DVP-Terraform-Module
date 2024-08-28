@@ -123,8 +123,3 @@ variable "redis" {
     })
 }
 
-variable "password" {
-    type = object({
-      create = bool
-    })  
-}
