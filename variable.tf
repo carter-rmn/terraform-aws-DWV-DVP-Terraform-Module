@@ -121,5 +121,10 @@ variable "redis" {
       redis_num_replicas_per_shard = number
       redis_snapshot_retention_limit = number
     })
-  
+}
+
+variable "password" {
+    type = object({
+      create = bool
+    })  
 }
