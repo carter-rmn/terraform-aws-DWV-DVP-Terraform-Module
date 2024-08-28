@@ -45,13 +45,21 @@ variable "ec2" {
 variable "secrets-manager" {
     type = object({
       keys = set(string)
+      create = bool
     })  
 }
 
 variable "secrets-version" {
     type = object({
       keys = set(string)
+      create = bool
     })  
+}
+
+variable "password" {
+    type = object({
+      create = bool
+    })
 }
 
 variable "eks" {

@@ -19,5 +19,17 @@ locals {
           public = ""
         }
       }
-  }  
+  }
+  mongo = {
+      port = 27017
+      dwv_core = {
+        name = "dwvcoreDB"
+        usernames = {
+          root   = "root"
+          admin  = "admin"
+          app    = "dwv_core"
+          viewer = "viewer"
+        }
+      }
+    }  
 }
