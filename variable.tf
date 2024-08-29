@@ -56,12 +56,6 @@ variable "secrets-version" {
     })  
 }
 
-variable "password" {
-    type = object({
-      create = bool
-    })
-}
-
 variable "eks" {
     type = object({
       create = bool
