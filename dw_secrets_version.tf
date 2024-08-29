@@ -19,17 +19,17 @@ resource "aws_secretsmanager_secret_version" "dwv_secret_terraform" {
         users = {
           root = {
             username = local.mongo.dwv_core.usernames.root
-            password = random_password.mongo_dwv_core_root_password[count.index].result
+            password = random_password.mongo_dwv_core_root_password.result
           }
           app = {
             username          = local.mongo.dwv_core.usernames.app
-            password          = random_password.mongo_dwv_core_app_password[count.index].result
-            connection_string = "mongodb://${local.mongo.dwv_core.usernames.app}:${random_password.mongo_dwv_core_app_password[count.index].result}@${join(",", [for item in aws_instance.ec2s : "${item.private_ip}:${local.mongo.port}" if length(regexall("(mongo-\\d+)", item.tags.Short)) > 0])}/${local.mongo.dwv_core.name}?authSource=admin${length([for item in aws_instance.ec2s : 1 if length(regexall("(mongo-\\d+)", item.tags.Short)) > 0]) > 1 ? "&replicaSet=dwv" : ""}"
+            password          = random_password.mongo_dwv_core_app_password.result
+            connection_string = "mongodb://${local.mongo.dwv_core.usernames.app}:${random_password.mongo_dwv_core_app_password.result}@${join(",", [for item in aws_instance.ec2s : "${item.private_ip}:${local.mongo.port}" if length(regexall("(mongo-\\d+)", item.tags.Short)) > 0])}/${local.mongo.dwv_core.name}?authSource=admin${length([for item in aws_instance.ec2s : 1 if length(regexall("(mongo-\\d+)", item.tags.Short)) > 0]) > 1 ? "&replicaSet=dwv" : ""}"
           }
           viewer = {
             username          = local.mongo.dwv_core.usernames.viewer
-            password          = random_password.mongo_dwv_core_viewer_password[count.index].result
-            connection_string = "mongodb://${local.mongo.dwv_core.usernames.viewer}:${random_password.mongo_dwv_core_viewer_password[count.index].result}@${join(",", [for item in aws_instance.ec2s : "${item.private_ip}:${local.mongo.port}" if length(regexall("(mongo-\\d+)", item.tags.Short)) > 0])}/${local.mongo.dwv_core.name}?authSource=admin${length([for item in aws_instance.ec2s : 1 if length(regexall("(mongo-\\d+)", item.tags.Short)) > 0]) > 1 ? "&replicaSet=dwv" : ""}"
+            password          = random_password.mongo_dwv_core_viewer_password.result
+            connection_string = "mongodb://${local.mongo.dwv_core.usernames.viewer}:${random_password.mongo_dwv_core_viewer_password.result}@${join(",", [for item in aws_instance.ec2s : "${item.private_ip}:${local.mongo.port}" if length(regexall("(mongo-\\d+)", item.tags.Short)) > 0])}/${local.mongo.dwv_core.name}?authSource=admin${length([for item in aws_instance.ec2s : 1 if length(regexall("(mongo-\\d+)", item.tags.Short)) > 0]) > 1 ? "&replicaSet=dwv" : ""}"
           }
         }
       }
