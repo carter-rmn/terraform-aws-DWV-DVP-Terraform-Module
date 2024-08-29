@@ -8,6 +8,7 @@ resource "aws_secretsmanager_secret_version" "dwv_secret_terraform" {
   count   = var.secrets-version.create ? 1 : 0
   secret_id = aws_secretsmanager_secret.dwv_secret_terraform[count.index].id
   secret_string = jsonencode({
+    vpc = var.vpc
     mongo = {
       dwv_core = {
         name        = local.mongo.dwv_core.name

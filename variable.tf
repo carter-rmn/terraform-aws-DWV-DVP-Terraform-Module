@@ -4,7 +4,6 @@ variable "PROJECT_PRENAME" {}
 
 variable "vpc" {
   type = object({
-    create =  bool
     vpc_id = string
     cidr = list(string)
     azs = list(string)
