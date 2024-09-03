@@ -22,3 +22,15 @@ resource "aws_secretsmanager_secret" "dwv_secret_terraform" {
     Terraform   = true
   }
 }
+
+resource "aws_secretsmanager_secret" "dwv_secret_others" {
+  count   = var.secrets-manager.create ? 1 : 0
+  name = "${local.dwv_prefix}-secret-others"
+  tags = {
+    Name        = "${local.dwv_prefix}-secret-others"
+    Project     = local.dwv_project_name
+    Customer    = var.PROJECT_CUSTOMER
+    Environment = var.PROJECT_ENV
+    Terraform   = true
+  }
+}
