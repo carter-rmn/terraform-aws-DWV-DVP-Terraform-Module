@@ -42,6 +42,9 @@ resource "aws_secretsmanager_secret_version" "dwv_secret_terraform" {
     },
     ecr = {
       domain = element(split("/", aws_ecr_repository.ecrs["webserver"].repository_url), 0)
+    },
+    aws = {
+      region = var.AWS_REGION
     }
     })
 }
