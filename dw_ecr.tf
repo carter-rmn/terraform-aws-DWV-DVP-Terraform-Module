@@ -1,6 +1,6 @@
 resource "aws_ecr_repository" "ecrs" {
   for_each = var.ecr.ecr
-  name                 = "${local.dwv_prefix}-ecr-${each.key}"
+  name                 = "${local.dwv_prefix}-ecr-dwv-${each.key}"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
