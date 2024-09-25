@@ -1,5 +1,5 @@
 locals {
-  dwv_project_name = "${var.PROJECT_PRENAME}{var.PROJECT_NAME}"
+  dwv_project_name = "${var.PROJECT_PRENAME}${var.PROJECT_NAME}"
   #dwv_project_name = "${var.PROJECT_PRENAME}dwv"
   dwv_prefix       = "${local.dwv_project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}"
 
