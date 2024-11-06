@@ -6,7 +6,8 @@ resource "aws_msk_cluster" "kafka_cluster" {
 
   broker_node_group_info {
     instance_type = var.msk.instance_type
-    client_subnets = var.vpc.subnets.private
+    client_subnets = length(var.vpc.subnets.database) > 0 ? var.vpc.subnets.database : var.vpc.subnets.private
+
     storage_info {
       ebs_storage_info {
         volume_size = var.msk.volume_size

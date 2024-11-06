@@ -12,6 +12,7 @@ variable "vpc" {
     subnets = object({
       public = list(string)
       private = list(string)
+      database  = list(string)
     })
   })
 }
