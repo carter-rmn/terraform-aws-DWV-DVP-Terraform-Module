@@ -13,6 +13,7 @@ resource "aws_secretsmanager_secret_version" "dwv_secret_terraform" {
       subnets = {
         private  = join(",", var.vpc.subnets.private)
         public   = join(",", var.vpc.subnets.public)
+        database   = join(",", var.vpc.subnets.database)
       }
     }
     %{ if try(aws_instance.ec2s["mongo-0"].id, "") != "" }
