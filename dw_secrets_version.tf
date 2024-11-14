@@ -15,6 +15,7 @@ resource "aws_secretsmanager_secret_version" "dwv_secret_terraform" {
         public   = join(",", var.vpc.subnets.public)
       }
     }
+    %{ if try(aws_instance.ec2s["mongo-0"].id, "") != "" }
     mongo = {
       dwv_core = {
         name        = local.mongo.dwv_core.name
@@ -41,11 +42,14 @@ resource "aws_secretsmanager_secret_version" "dwv_secret_terraform" {
         }
       }
     },
+    %{ endif }
+    %{ if var.msk.create }
     msk = {
       address = substr(element(split(":", element(split(",", aws_msk_cluster.kafka_cluster[count.index].bootstrap_brokers), 0)), 0), 4, -1)
       port    = element(split(":", element(split(",", aws_msk_cluster.kafka_cluster[count.index].bootstrap_brokers), 0)), 1)
       url     = substr(element(split(",", aws_msk_cluster.kafka_cluster[count.index].bootstrap_brokers), 0), 4, -1)
     },
+    %{ endif }
     ecr = {
       domain = element(split("/", aws_ecr_repository.ecrs["webserver"].repository_url), 0)
     },
