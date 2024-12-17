@@ -40,7 +40,7 @@ resource "aws_apigatewayv2_integration" "alb_integration" {
 resource "aws_apigatewayv2_route" "api_route" {
   count                     = var.api-gateway.create ? 1 : 0
   api_id    = aws_apigatewayv2_api.http_api[0].id
-  route_key = "ANY /api/v1/public/{proxy+}"
+  route_key = "ANY /api/v1/{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.alb_integration[0].id}"
 }
 
