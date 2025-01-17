@@ -1,5 +1,5 @@
 resource "aws_msk_cluster" "kafka_cluster" {
-  count                     = var.msk.create ? 1 : 0
+  count                  = var.msk.create ? 1 : 0
   cluster_name           = "${local.dwv_prefix}-msk-cluster"
   kafka_version          = "3.6.0"
   number_of_broker_nodes = var.msk.new.number_of_broker_nodes
@@ -24,7 +24,7 @@ resource "aws_msk_cluster" "kafka_cluster" {
     }
   }
   configuration_info {
-    arn = aws_msk_configuration.kafka_config[0].arn
+    arn      = aws_msk_configuration.kafka_config[0].arn
     revision = aws_msk_configuration.kafka_config[0].latest_revision
   }
   encryption_info {
@@ -42,9 +42,9 @@ resource "aws_msk_cluster" "kafka_cluster" {
 }
 
 resource "aws_cloudwatch_log_group" "kafka" {
-  count                     = var.msk.create ? 1 : 0
-  name = "${local.dwv_prefix}-msk-log-group"
-  retention_in_days = 3
+  count             = var.msk.create ? 1 : 0
+  name              = "${local.dwv_prefix}-msk-log-group"
+  retention_in_days = 30
   tags = {
     Name        = "${local.dwv_prefix}-msk-log-group"
     Project     = local.dwv_project_name
@@ -52,11 +52,11 @@ resource "aws_cloudwatch_log_group" "kafka" {
     Environment = var.PROJECT_ENV
     Terraform   = true
   }
-  
+
 }
 
 resource "aws_msk_configuration" "kafka_config" {
-  count                     = var.msk.create ? 1 : 0
+  count          = var.msk.create ? 1 : 0
   kafka_versions = ["3.6.0"]
   name           = "${local.dwv_prefix}-msk-config"
 
