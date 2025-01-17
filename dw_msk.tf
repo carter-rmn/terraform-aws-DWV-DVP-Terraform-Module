@@ -2,15 +2,15 @@ resource "aws_msk_cluster" "kafka_cluster" {
   count                  = var.msk.create ? 1 : 0
   cluster_name           = "${local.dwv_prefix}-msk-cluster"
   kafka_version          = "3.6.0"
-  number_of_broker_nodes = var.msk.number_of_broker_nodes
+  number_of_broker_nodes = var.msk.new.number_of_broker_nodes
 
   broker_node_group_info {
-    instance_type  = var.msk.instance_type
-    client_subnets = length(var.vpc.subnets.database) > 0 ? var.vpc.subnets.database : var.vpc.subnets.private
+    instance_type = var.msk.new.instance_type
+    client_subnets = var.vpc.subnets.private
 
     storage_info {
       ebs_storage_info {
-        volume_size = var.msk.volume_size
+        volume_size = var.msk.new.volume_size
       }
     }
     security_groups = [aws_security_group.sg_msk[0].id]

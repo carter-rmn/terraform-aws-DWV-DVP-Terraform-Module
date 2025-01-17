@@ -42,11 +42,11 @@ resource "aws_secretsmanager_secret_version" "dwv_secret_terraform" {
         }
       }
     },
-    msk = var.msk.create ? {
-      address = substr(element(split(":", element(split(",", aws_msk_cluster.kafka_cluster[count.index].bootstrap_brokers), 0)), 0), 4, -1)
-      port    = element(split(":", element(split(",", aws_msk_cluster.kafka_cluster[count.index].bootstrap_brokers), 0)), 1)
-      url     = substr(element(split(",", aws_msk_cluster.kafka_cluster[count.index].bootstrap_brokers), 0), 4, -1)
-    }: null,
+    msk = {
+      address = substr(element(split(":", element(split(",", local.msk.bootstrap_brokers), 0)), 0), 4, -1)
+      port    = element(split(":", element(split(",", local.msk.bootstrap_brokers), 0)), 1)
+      url     = substr(element(split(",", local.msk.bootstrap_brokers), 0), 4, -1)
+    }
     ecr = {
       domain = element(split("/", aws_ecr_repository.ecrs["webserver"].repository_url), 0)
     },

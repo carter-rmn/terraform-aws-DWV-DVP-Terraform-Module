@@ -19,9 +19,14 @@ variable "vpc" {
 variable "msk" {
     type = object({
       create = bool
+      new = object({
       volume_size = number
       number_of_broker_nodes = number
       instance_type = string
+    })
+    existing = object({
+      bootstrap_brokers = string
+    })
     })
 }
 

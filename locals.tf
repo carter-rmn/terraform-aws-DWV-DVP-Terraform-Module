@@ -5,6 +5,8 @@ locals {
 
   keys = { for item in distinct([for item, _ in local.ec2.instances : element(split("-", item), 0)]) : item => {} }
 
+  msk = { bootstrap_brokers = var.msk.create ? aws_msk_cluster.kafka_cluster[0].bootstrap_brokers : var.msk.existing.bootstrap_brokers }
+
   ecr = {
     repositories = [
       "",
