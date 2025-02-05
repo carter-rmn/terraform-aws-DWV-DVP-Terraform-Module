@@ -15,7 +15,7 @@ resource "aws_sns_topic_subscription" "slack" {
   endpoint  = aws_lambda_function.slack_notification.arn
 }
 resource "aws_sns_topic_subscription" "emails" {
-  for_each  = { for email in local.dwv_config.alarm.emails : email => email }
+  for_each  = { for email in var.alarm.emails : email => email }
   topic_arn = aws_sns_topic.alarms.arn
   protocol  = "email"
   endpoint  = each.value
