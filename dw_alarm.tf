@@ -24,7 +24,7 @@ resource "aws_cloudwatch_metric_alarm" "ec2s" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "lambda" {
-  for_each            = local.rmn_config.alarm.enabled ? { for alarm in local.alarm_config.lambda : alarm.alarm_name => alarm } : {}
+  for_each            = { for alarm in local.alarm_config.lambda : alarm.alarm_name => alarm }
   alarm_name          = "${local.dwv_prefix}-alarm-lambda-slack-${each.value.alarm_name}"
   comparison_operator = each.value.comparison_operator
   evaluation_periods  = each.value.evaluation_periods
