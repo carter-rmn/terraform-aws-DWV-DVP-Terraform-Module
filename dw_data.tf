@@ -1,3 +1,3 @@
 data "local_file" "alarm_config" {
-  filename = "./config/alarms.json"
+  filename = "${path.module}/config/alarms.json"
 }
