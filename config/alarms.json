@@ -19,6 +19,18 @@
   "eks": [],
   "redis": [],
   "s3": [],
-  "lambda": [],
+  "lambda": [
+    {
+      "alarm_name": "LambdaErrorRate",
+      "comparison_operator": "GreaterThanThreshold",
+      "evaluation_periods": 1,
+      "metric_name": "Errors",
+      "namespace": "AWS/Lambda",
+      "period": 60,
+      "statistic": "Average",
+      "threshold": 1,
+      "treat_missing_data": "notBreaching"
+    }
+  ],
   "alb": []
 }
