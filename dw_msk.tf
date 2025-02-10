@@ -5,8 +5,8 @@ resource "aws_msk_cluster" "kafka_cluster" {
   number_of_broker_nodes = var.msk.new.number_of_broker_nodes
 
   broker_node_group_info {
-    instance_type = var.msk.new.instance_type
-    client_subnets = var.vpc.subnets.private
+    instance_type  = var.msk.new.instance_type
+    client_subnets = var.msk.new.subnets
 
     storage_info {
       ebs_storage_info {

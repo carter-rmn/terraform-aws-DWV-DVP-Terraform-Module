@@ -25,6 +25,7 @@ variable "msk" {
       volume_size            = number
       number_of_broker_nodes = number
       instance_type          = string
+      subnet_ids             = list(string)
     })
     existing = object({
       bootstrap_brokers = string
