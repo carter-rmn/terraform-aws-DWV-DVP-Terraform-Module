@@ -89,12 +89,6 @@ variable "api-gateway" {
   })
 }
 
-variable "ecr" {
-  type = object({
-    ecr = map(string)
-  })
-}
-
 variable "rds" {
   type = object({
     create                    = bool

@@ -30,4 +30,11 @@ locals {
       if var.alarm.enabled
     ])
   }
+  ecr = {
+    webserver = "webserver"
+    executor  = "executor"
+    scheduler = "scheduler"
+    core      = "core"
+    dashboard = "dashboard"
+  }
 }
