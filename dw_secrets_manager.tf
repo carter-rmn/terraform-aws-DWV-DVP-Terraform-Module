@@ -12,7 +12,7 @@ resource "aws_secretsmanager_secret" "secret_ec2s" {
 }
 
 resource "aws_secretsmanager_secret" "dwv_secret_terraform" {
-  count   = var.secrets-manager.create ? 1 : 0
+  count   = (var.secrets-manager.create && var.CREATE_NON_IAM) ? 1 : 0
   name = "${local.dwv_prefix}-secret-terraform"
   tags = {
     Name        = "${local.dwv_prefix}-secret-terraform"
@@ -24,7 +24,7 @@ resource "aws_secretsmanager_secret" "dwv_secret_terraform" {
 }
 
 resource "aws_secretsmanager_secret" "dwv_secret_others" {
-  count   = var.secrets-manager.create ? 1 : 0
+  count   = (var.secrets-manager.create && var.CREATE_NON_IAM) ? 1 : 0
   name = "${local.dwv_prefix}-secret-others"
   tags = {
     Name        = "${local.dwv_prefix}-secret-others"

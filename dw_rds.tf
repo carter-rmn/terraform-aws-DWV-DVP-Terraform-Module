@@ -1,5 +1,5 @@
 resource "aws_db_instance" "postgres" {
-  count                     = var.rds.create ? 1 : 0
+  count                = (var.rds.create && var.CREATE_NON_IAM) ? 1 : 0
   identifier           =  "${local.dwv_prefix}-rds-cluster-core"
   engine               =  var.rds.engine
   engine_version       =  var.rds.engine_version
@@ -32,7 +32,7 @@ resource "aws_db_instance" "postgres" {
 
 }
 resource "aws_db_subnet_group" "rds_postgress" {
-  count                     = var.rds.create ? 1 : 0
+  count       = (var.rds.create && var.CREATE_NON_IAM) ? 1 : 0
   name        = "${local.dwv_prefix}-rds-subnet-group-core"
   description =  "core Postgress RDS private subnet group"
   subnet_ids  = var.vpc.subnets.private
