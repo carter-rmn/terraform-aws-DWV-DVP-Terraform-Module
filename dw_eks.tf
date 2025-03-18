@@ -22,7 +22,7 @@ resource "aws_eks_cluster" "data_weaver_eks_cluster" {
 }
 ### Adding Fargate profile for EKS cluster ###
 resource "aws_eks_fargate_profile" "data_weaver_eks_fargate" {
-  count                     = (var.eks.createe && var.CREATE_IAM) ? 1 : 0
+  count                     = (var.eks.create && var.CREATE_IAM) ? 1 : 0
   cluster_name           = aws_eks_cluster.data_weaver_eks_cluster[0].name
   fargate_profile_name   = "${local.dwv_prefix}-eks-fargate-profile"
   pod_execution_role_arn = aws_iam_role.data_weaver_fargate[0].arn
@@ -37,7 +37,7 @@ resource "aws_eks_fargate_profile" "data_weaver_eks_fargate" {
 
 }
 resource "aws_iam_role" "data_weaver_fargate" {
-  count                     = (var.eks.createe && var.CREATE_IAM) ? 1 : 0
+  count                     = (var.eks.create && var.CREATE_IAM) ? 1 : 0
   name = "${local.dwv_prefix}-eks-fargate-profile"
 
   assume_role_policy = jsonencode({
@@ -52,7 +52,7 @@ resource "aws_iam_role" "data_weaver_fargate" {
   })
 }
 resource "aws_iam_policy" "EksFargatePodExecutionRolePolicy" {
-  count                     = (var.eks.createe && var.CREATE_IAM) ? 1 : 0
+  count                     = (var.eks.create && var.CREATE_IAM) ? 1 : 0
   name        = "${local.dwv_prefix}-EksFargatePodExecutionRole-policy"
   description = "Policy for EKS Fargate Pod Execution Role"
 
@@ -78,17 +78,17 @@ resource "aws_iam_policy" "EksFargatePodExecutionRolePolicy" {
 }
 
 resource "aws_iam_role_policy_attachment" "EksFargatePodExecutionRolepolicy" {
-  count                     = (var.eks.createe && var.CREATE_IAM) ? 1 : 0
+  count                     = (var.eks.create && var.CREATE_IAM) ? 1 : 0
   policy_arn = aws_iam_policy.EksFargatePodExecutionRolePolicy[0].arn
   role       = aws_iam_role.data_weaver_fargate[0].name
 }
 resource "aws_iam_role_policy_attachment" "AmazonEKSFargatePodExecutionRolePolicy" {
-  count                     = (var.eks.createe && var.CREATE_IAM) ? 1 : 0
+  count                     = (var.eks.create && var.CREATE_IAM) ? 1 : 0
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy"
   role       = aws_iam_role.data_weaver_fargate[0].name
 }
 resource "aws_iam_role" "data_weaver_eks" {
-  count                     = (var.eks.createe && var.CREATE_IAM) ? 1 : 0
+  count                     = (var.eks.create && var.CREATE_IAM) ? 1 : 0
   name               = "${local.dwv_prefix}-eks-cluster-iam-role"
   assume_role_policy = jsonencode({
     Statement = [{
@@ -103,33 +103,33 @@ resource "aws_iam_role" "data_weaver_eks" {
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
-  count                     = (var.eks.createe && var.CREATE_IAM) ? 1 : 0
+  count                     = (var.eks.create && var.CREATE_IAM) ? 1 : 0
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.data_weaver_eks[0].name
 }
 resource "aws_iam_role_policy_attachment" "example-AmazonEKSVPCResourceController" {
-  count                     = (var.eks.createe && var.CREATE_IAM) ? 1 : 0
+  count                     = (var.eks.create && var.CREATE_IAM) ? 1 : 0
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
   role       = aws_iam_role.data_weaver_eks[0].name
 }
 data "aws_eks_cluster_auth" "eks" {
-  count                     = (var.eks.createe && var.CREATE_IAM) ? 1 : 0
+  count                     = (var.eks.create && var.CREATE_IAM) ? 1 : 0
   name = aws_eks_cluster.data_weaver_eks_cluster[0].id
 }
 
 data "tls_certificate" "cluster" {
-  count                     = (var.eks.createe && var.CREATE_IAM) ? 1 : 0
+  count                     = (var.eks.create && var.CREATE_IAM) ? 1 : 0
   url = aws_eks_cluster.data_weaver_eks_cluster[0].identity.0.oidc.0.issuer
 }
 
 resource "aws_iam_openid_connect_provider" "cluster" {
-  count                     = (var.eks.createe && var.CREATE_IAM) ? 1 : 0
+  count                     = (var.eks.create && var.CREATE_IAM) ? 1 : 0
   client_id_list  = ["sts.amazonaws.com"]
   thumbprint_list = [data.tls_certificate.cluster[0].certificates.0.sha1_fingerprint]
   url             = aws_eks_cluster.data_weaver_eks_cluster[0].identity.0.oidc.0.issuer
 }
 data "aws_iam_policy_document" "aws_load_balancer_controller_assume_role_policy" {
-  count                     = (var.eks.createe && var.CREATE_IAM) ? 1 : 0
+  count                     = (var.eks.create && var.CREATE_IAM) ? 1 : 0
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]
     effect  = "Allow"
@@ -157,19 +157,19 @@ data "aws_iam_policy_document" "aws_load_balancer_controller_assume_role_policy"
 }
 
 resource "aws_iam_role" "aws_load_balancer_controller" {
-  count                     = (var.eks.createe && var.CREATE_IAM) ? 1 : 0
+  count                     = (var.eks.create && var.CREATE_IAM) ? 1 : 0
   assume_role_policy = data.aws_iam_policy_document.aws_load_balancer_controller_assume_role_policy[0].json
   name               = "${local.dwv_prefix}-aws-load-balancer-controller"
 }
 
 resource "aws_iam_policy" "aws_load_balancer_controller" {
-  count                     = (var.eks.createe && var.CREATE_IAM) ? 1 : 0
+  count                     = (var.eks.create && var.CREATE_IAM) ? 1 : 0
   policy = file("${path.module}/AWSLoadBalancerController.json")
   name   = "${local.dwv_prefix}-AWSLoadBalancerController"
 }
 
 resource "aws_iam_role_policy_attachment" "aws_load_balancer_controller_attach" {
-  count                     = (var.eks.createe && var.CREATE_IAM) ? 1 : 0
+  count                     = (var.eks.create && var.CREATE_IAM) ? 1 : 0
   role       = aws_iam_role.aws_load_balancer_controller[0].name
   policy_arn = aws_iam_policy.aws_load_balancer_controller[0].arn
 }
