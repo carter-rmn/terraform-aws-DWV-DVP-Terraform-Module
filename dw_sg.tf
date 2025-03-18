@@ -117,7 +117,7 @@ resource "aws_security_group" "sg_eks" {
   }
 }
 resource "aws_security_group" "sg_rds" {
-  count                     = var.rds.create ? 1 : 0
+  count                     = (var.rds.create && var.CREATE_NON_IAM) ? 1 : 0
   name        = "${local.dwv_prefix}-sg-allow-rds"
 
   vpc_id = var.vpc.vpc_id
@@ -145,7 +145,7 @@ resource "aws_security_group" "sg_rds" {
   }
 }
 resource "aws_security_group" "sg_redis" {
-  count                     = var.redis.create ? 1 : 0
+  count                     = (var.redis.create && var.CREATE_NON_IAM) ? 1 : 0
   name        = "${local.dwv_prefix}-sg-allow-redis"
 
   vpc_id = var.vpc.vpc_id
@@ -173,7 +173,7 @@ resource "aws_security_group" "sg_redis" {
   }
 }
 resource "aws_security_group" "sg_api_gateway" {
-  count                     = var.api-gateway.create ? 1 : 0
+  count                     = (var.api-gateway.create && var.CREATE_NON_IAM) ? 1 : 0
   name        = "${local.dwv_prefix}-sg-api-gateway"
 
   vpc_id = var.vpc.vpc_id

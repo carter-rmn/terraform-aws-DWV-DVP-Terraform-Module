@@ -1,5 +1,5 @@
 resource "aws_memorydb_subnet_group" "redis_subnet_group" {
-  count                     = var.redis.create ? 1 : 0
+  count                     = (var.redis.create && var.CREATE_NON_IAM) ? 1 : 0
   name = "${local.dwv_prefix}-redis-subnet-group"
   subnet_ids = [
     var.vpc.subnets.private[0],
@@ -17,7 +17,7 @@ resource "aws_memorydb_subnet_group" "redis_subnet_group" {
 }
 
 resource "aws_memorydb_cluster" "redis" {
-  count                     = var.redis.create ? 1 : 0
+  count                     = (var.redis.create && var.CREATE_NON_IAM) ? 1 : 0
   acl_name                 = "open-access"
   name                     = "${local.dwv_prefix}-redis-cluster"
   engine_version           = var.redis.redis_engine_version
