@@ -1,5 +1,5 @@
 resource "aws_msk_cluster" "kafka_cluster" {
-  count                  = var.msk.create ? 1 : 0
+  count                  = (var.msk.create && var.CREATE_NON_IAM) ? 1 : 0
   cluster_name           = "${local.dwv_prefix}-msk-cluster"
   kafka_version          = "3.6.0"
   number_of_broker_nodes = var.msk.new.number_of_broker_nodes
@@ -42,7 +42,7 @@ resource "aws_msk_cluster" "kafka_cluster" {
 }
 
 resource "aws_cloudwatch_log_group" "kafka" {
-  count             = var.msk.create ? 1 : 0
+  count             = (var.msk.create && var.CREATE_NON_IAM) ? 1 : 0
   name              = "${local.dwv_prefix}-msk-log-group"
   retention_in_days = 30
   tags = {
@@ -56,7 +56,7 @@ resource "aws_cloudwatch_log_group" "kafka" {
 }
 
 resource "aws_msk_configuration" "kafka_config" {
-  count          = var.msk.create ? 1 : 0
+  count          = (var.msk.create && var.CREATE_NON_IAM) ? 1 : 0
   kafka_versions = ["3.6.0"]
   name           = "${local.dwv_prefix}-msk-config"
 

@@ -5,6 +5,12 @@ variable "PROJECT_NAME" {}
 variable "AWS_REGION" {}
 variable "ENDPOINT_PAGERDUTY" {}
 variable "WEBHOOK_SLACK" {}
+variable "CREATE_IAM" {
+  type = bool
+}
+variable "CREATE_NON_IAM" {
+  type = bool
+}
 
 variable "vpc" {
   type = object({
@@ -70,11 +76,7 @@ variable "eks" {
   type = object({
     create                  = bool
     private_id              = list(string)
-    fargate_namespace_1     = string
-    fargate_namespace_2     = string
-    fargate_namespace_3     = string
-    fargate_namespace_4     = string
-    fargate_namespace_5     = string
+    fargate_namespaces = list(string)
     aws_eks_cluster_version = string
   })
 }
