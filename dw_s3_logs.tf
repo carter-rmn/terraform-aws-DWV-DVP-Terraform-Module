@@ -1,5 +1,5 @@
 resource "aws_s3_bucket_logging" "s3s" {
-  for_each      = { for key in var.s3.names : key => key }
+  for_each      = local.s3s
   bucket        = aws_s3_bucket.s3s[each.key].id
   target_bucket = aws_s3_bucket.s3s["log"].id
   target_prefix = each.key
