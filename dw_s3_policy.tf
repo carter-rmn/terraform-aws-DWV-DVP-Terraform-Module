@@ -12,8 +12,7 @@ resource "aws_s3_bucket_versioning" "s3s" {
   bucket   = aws_s3_bucket.s3s[each.key].id
 
   versioning_configuration {
-    status     = "Enabled"
-    mfa_delete = "Enabled"
+    status = "Enabled"
   }
 }
 
