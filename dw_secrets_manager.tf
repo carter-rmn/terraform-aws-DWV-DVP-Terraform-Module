@@ -1,5 +1,5 @@
 resource "aws_secretsmanager_secret" "secret_ec2s" {
-  for_each = var.secrets-manager.keys
+  for_each = var.CREATE_NON_IAM ? var.secrets-manager.keys : []
   name     = "${local.dwv_prefix}-secret-key-${each.key}"
 
   tags = {

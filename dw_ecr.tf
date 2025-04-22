@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "ecrs" {
-  for_each             = local.ecr
+  for_each             = var.CREATE_NON_IAM ? local.ecr : {}
   name                 = "${local.dwv_prefix}-ecr-dwv-${each.key}"
   image_tag_mutability = "MUTABLE"
 
@@ -16,7 +16,7 @@ resource "aws_ecr_repository" "ecrs" {
 }
 
 resource "aws_ecr_lifecycle_policy" "lifecycle_policy" {
-  for_each = local.ecr
+  for_each = var.CREATE_NON_IAM ? local.ecr : {}
   repository = aws_ecr_repository.ecrs[each.key].name
 
   policy = <<EOF
