@@ -1,5 +1,5 @@
 resource "aws_instance" "ec2s" {
-  for_each = var.ec2.instances
+  for_each      = var.CREATE_NON_IAM ? var.ec2.instances : {}
   ami           = var.ec2.ami
   instance_type = each.value.instance_type
   key_name      = "${local.dwv_prefix}-ec2-${element(split("-", each.key), 0)}"
