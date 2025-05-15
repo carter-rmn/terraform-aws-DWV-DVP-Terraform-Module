@@ -2,7 +2,6 @@ resource "aws_security_group" "sg_mongo" {
   count       = (contains(keys(var.ec2.instances), "mongo-0") && var.CREATE_NON_IAM) ? 1 : 0
   name        = "${local.dwv_prefix}-sg-mongo"
   description = "Allow Mongo Connection"
-  depends_on = [ aws_instance.ec2s["mongo-0"] ]
 
   vpc_id = var.vpc.vpc_id
 
