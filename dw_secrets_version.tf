@@ -16,7 +16,7 @@ resource "aws_secretsmanager_secret_version" "dwv_secret_terraform" {
         database   = join(",", var.vpc.subnets.database)
       }
     }
-    mongo = {
+    mongo = local.mongo_enabled ? {
       dwv_core = {
         name        = local.mongo.dwv_core.name
         port        = local.mongo.port
@@ -41,7 +41,7 @@ resource "aws_secretsmanager_secret_version" "dwv_secret_terraform" {
           }
         }
       }
-    },
+    }: {},
     msk = {
       address = substr(element(split(":", element(split(",", local.msk.bootstrap_brokers), 0)), 0), 4, -1)
       port    = element(split(":", element(split(",", local.msk.bootstrap_brokers), 0)), 1)
