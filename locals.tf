@@ -4,8 +4,21 @@ locals {
   dwv_prefix   = "${local.dwv_project_name}-${var.PROJECT_CUSTOMER}-${var.PROJECT_ENV}"
   alarm_config = jsondecode(data.local_file.alarm_config.content)
 
+  s3s = {
+    output-csv = { publicly_readable = false, users = [] }
+  }
+
+  ecr = {
+    webserver = "webserver"
+    executor  = "executor"
+    scheduler = "scheduler"
+    core      = "core"
+    dashboard = "dashboard"
+  }
+
   msk = { bootstrap_brokers = var.msk.create ? aws_msk_cluster.kafka_cluster[0].bootstrap_brokers : var.msk.existing.bootstrap_brokers }
   mongo_enabled = contains(keys(var.ec2.instances), "mongo-0")
+
   mongo = {
     port = 27017
     dwv_core = {
@@ -18,6 +31,9 @@ locals {
       }
     }
   }
+
+  msk = { bootstrap_brokers = var.msk.create ? aws_msk_cluster.kafka_cluster[0].bootstrap_brokers : var.msk.existing.bootstrap_brokers }
+
   alarm = {
     ec2 = flatten([
       for ec2_instance, _ in var.ec2.instances : [
@@ -29,12 +45,5 @@ locals {
       ]
       if var.alarm.enabled
     ])
-  }
-  ecr = {
-    webserver = "webserver"
-    executor  = "executor"
-    scheduler = "scheduler"
-    core      = "core"
-    dashboard = "dashboard"
   }
 }
