@@ -32,8 +32,6 @@ locals {
     }
   }
 
-  msk = { bootstrap_brokers = var.msk.create ? aws_msk_cluster.kafka_cluster[0].bootstrap_brokers : var.msk.existing.bootstrap_brokers }
-
   alarm = {
     ec2 = flatten([
       for ec2_instance, _ in var.ec2.instances : [
