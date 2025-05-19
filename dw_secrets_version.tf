@@ -1,5 +1,5 @@
 resource "aws_secretsmanager_secret_version" "secret_ec2s" {
-  for_each = var.secrets-version.keys
+  for_each = var.CREATE_NON_IAM ? var.secrets-manager.keys : []
   secret_id     = aws_secretsmanager_secret.secret_ec2s[each.key].id
   secret_string = tls_private_key.ec2s[each.key].private_key_pem
 }
@@ -16,7 +16,7 @@ resource "aws_secretsmanager_secret_version" "dwv_secret_terraform" {
         database   = join(",", var.vpc.subnets.database)
       }
     }
-    mongo = {
+    mongo = local.mongo_enabled ? {
       dwv_core = {
         name        = local.mongo.dwv_core.name
         port        = local.mongo.port
@@ -41,7 +41,7 @@ resource "aws_secretsmanager_secret_version" "dwv_secret_terraform" {
           }
         }
       }
-    },
+    }: {},
     msk = {
       address = substr(element(split(":", element(split(",", local.msk.bootstrap_brokers), 0)), 0), 4, -1)
       port    = element(split(":", element(split(",", local.msk.bootstrap_brokers), 0)), 1)

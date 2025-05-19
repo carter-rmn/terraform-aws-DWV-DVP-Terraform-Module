@@ -16,6 +16,9 @@ locals {
     dashboard = "dashboard"
   }
 
+  msk = { bootstrap_brokers = var.msk.create ? aws_msk_cluster.kafka_cluster[0].bootstrap_brokers : var.msk.existing.bootstrap_brokers }
+  mongo_enabled = contains(keys(var.ec2.instances), "mongo-0")
+
   mongo = {
     port = 27017
     dwv_core = {

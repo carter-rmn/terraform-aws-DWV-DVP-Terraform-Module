@@ -1,4 +1,5 @@
 resource "aws_security_group" "sg_mongo" {
+  count       = (contains(keys(var.ec2.instances), "mongo-0") && var.CREATE_NON_IAM) ? 1 : 0
   name        = "${local.dwv_prefix}-sg-mongo"
   description = "Allow Mongo Connection"
 
@@ -28,6 +29,7 @@ resource "aws_security_group" "sg_mongo" {
 }
 
 resource "aws_security_group" "sg_ssh" {
+  count       = (length(var.ec2.instances) > 0 && var.CREATE_NON_IAM) ? 1 : 0
   name        = "${local.dwv_prefix}-sg-ssh"
 
   vpc_id = var.vpc.vpc_id
@@ -55,7 +57,7 @@ resource "aws_security_group" "sg_ssh" {
   }
 }
 resource "aws_security_group" "sg_msk" {
-  count                     = var.msk.create ? 1 : 0
+  count       = (var.msk.create && var.CREATE_NON_IAM) ? 1 : 0
   name        = "${local.dwv_prefix}-sg-allow-msk"
 
   vpc_id = var.vpc.vpc_id
@@ -83,7 +85,7 @@ resource "aws_security_group" "sg_msk" {
   }
 }
 resource "aws_security_group" "sg_eks" {
-  count                     = var.eks.create ? 1 : 0
+  count       = (var.eks.create && var.CREATE_NON_IAM) ? 1 : 0
   name        = "${local.dwv_prefix}-sg-eks"
 
   vpc_id = var.vpc.vpc_id
@@ -117,7 +119,7 @@ resource "aws_security_group" "sg_eks" {
   }
 }
 resource "aws_security_group" "sg_rds" {
-  count                     = (var.rds.create && var.CREATE_NON_IAM) ? 1 : 0
+  count       = (var.rds.create && var.CREATE_NON_IAM) ? 1 : 0
   name        = "${local.dwv_prefix}-sg-allow-rds"
 
   vpc_id = var.vpc.vpc_id
@@ -145,7 +147,7 @@ resource "aws_security_group" "sg_rds" {
   }
 }
 resource "aws_security_group" "sg_redis" {
-  count                     = (var.redis.create && var.CREATE_NON_IAM) ? 1 : 0
+  count       = (var.redis.create && var.CREATE_NON_IAM) ? 1 : 0
   name        = "${local.dwv_prefix}-sg-allow-redis"
 
   vpc_id = var.vpc.vpc_id
@@ -173,7 +175,7 @@ resource "aws_security_group" "sg_redis" {
   }
 }
 resource "aws_security_group" "sg_api_gateway" {
-  count                     = (var.api-gateway.create && var.CREATE_NON_IAM) ? 1 : 0
+  count       = (var.api-gateway.create && var.CREATE_NON_IAM) ? 1 : 0
   name        = "${local.dwv_prefix}-sg-api-gateway"
 
   vpc_id = var.vpc.vpc_id
