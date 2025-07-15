@@ -10,7 +10,10 @@ resource "aws_instance" "ec2s" {
   }
 
   user_data              = file("${path.module}/db.sh")
-  vpc_security_group_ids = [aws_security_group.sg_mongo[0].id, aws_security_group.sg_ssh[0].id]
+  vpc_security_group_ids = compact([
+  length(aws_security_group.sg_mongo) > 0 ? aws_security_group.sg_mongo[0].id : null,
+  length(aws_security_group.sg_ssh) > 0 ? aws_security_group.sg_ssh[0].id : null
+  ])
   subnet_id = element(
     each.value.public ? var.vpc.subnets.public : var.vpc.subnets.private,
     each.value.subnet_index
