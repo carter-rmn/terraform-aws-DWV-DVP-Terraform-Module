@@ -14,6 +14,7 @@ locals {
     scheduler = "scheduler"
     core      = "core"
     dashboard = "dashboard"
+    admin-dashboard = "admin-dashboard"
   }
 
   msk = { bootstrap_brokers = var.msk.create ? aws_msk_cluster.kafka_cluster[0].bootstrap_brokers : var.msk.existing.bootstrap_brokers }
