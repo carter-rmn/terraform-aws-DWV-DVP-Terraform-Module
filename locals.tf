@@ -6,6 +6,7 @@ locals {
 
   s3s = {
     core-output-csv = { publicly_readable = false, users = [] }
+    log = { publicly_readable = false, users = [] }
   }
 
   ecr = {
