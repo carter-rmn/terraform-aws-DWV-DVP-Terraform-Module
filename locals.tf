@@ -5,7 +5,7 @@ locals {
   alarm_config = jsondecode(data.local_file.alarm_config.content)
 
   s3s = {
-    output-csv = { publicly_readable = false, users = [] }
+    core-output-csv = { publicly_readable = false, users = [] }
   }
 
   ecr = {
