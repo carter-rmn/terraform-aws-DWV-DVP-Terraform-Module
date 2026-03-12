@@ -9,21 +9,7 @@ locals {
     log = { publicly_readable = false, users = [] }
   }
 
-  ecr_full = {
-    webserver       = "webserver"
-    executor        = "executor"
-    scheduler       = "scheduler"
-    core            = "core"
-    dashboard       = "dashboard"
-    admin-dashboard = "admin-dashboard"
-  }
-  ecr_minimal = {
-    webserver = "webserver"
-    executor  = "executor"
-    scheduler = "scheduler"
-    core      = "core"
-  }
-  ecr = contains(["dev", "sbx", "stg"], var.PROJECT_ENV) ? local.ecr_minimal : local.ecr_full
+  ecr = var.ecr
 
   msk = { bootstrap_brokers = var.msk.create ? aws_msk_cluster.kafka_cluster[0].bootstrap_brokers : var.msk.existing.bootstrap_brokers }
   mongo_enabled = contains(keys(var.ec2.instances), "mongo-0")
