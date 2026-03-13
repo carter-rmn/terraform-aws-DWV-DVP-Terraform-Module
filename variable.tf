@@ -12,6 +12,19 @@ variable "CREATE_NON_IAM" {
   type = bool
 }
 
+# IF ECR IS NOT PROVIDED, USE THE DEFAULT VALUES
+variable "ecr" {
+  type = map(string)
+  default = {
+    webserver       = "webserver"
+    executor        = "executor"
+    scheduler       = "scheduler"
+    core            = "core"
+    dashboard       = "dashboard"
+    admin-dashboard = "admin-dashboard"
+  }
+}
+
 variable "vpc" {
   type = object({
     vpc_id = string
