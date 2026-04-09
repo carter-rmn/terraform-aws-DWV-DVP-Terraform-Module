@@ -1,5 +1,5 @@
 data "aws_iam_policy_document" "pod_identity_assume_role" {
-  for_each = local.app_roles_eks
+  for_each =  var.CREATE_IAM ? local.app_roles_eks : {}
 
   statement {
     effect = "Allow"
@@ -14,7 +14,7 @@ data "aws_iam_policy_document" "pod_identity_assume_role" {
 }
 
 resource "aws_iam_role" "app_role_eks" {
-  for_each = local.app_roles_eks
+  for_each = var.CREATE_IAM ? local.app_roles_eks : {}
 
   name               = "${local.dwv_prefix}-iam-role-app-${each.key}"
   assume_role_policy = data.aws_iam_policy_document.pod_identity_assume_role[each.key].json
@@ -25,9 +25,9 @@ resource "aws_iam_role" "app_role_eks" {
 }
 
 resource "aws_iam_policy" "app_role_policies" {
-  for_each = {
+  for_each = var.CREATE_IAM ? {
     for name, config in local.app_roles_eks : name => config if length(config) > 0
-  }
+  } : {}
 
   name        = "${local.dwv_prefix}-iam-policy-app-${each.key}"
   description = "Custom policy for ${each.key} application role"
@@ -51,9 +51,9 @@ resource "aws_iam_policy" "app_role_policies" {
 }
 
 resource "aws_iam_role_policy_attachment" "app_role_custom_policies" {
-  for_each = {
+  for_each = var.CREATE_IAM ? {
     for name, config in local.app_roles_eks : name => config if length(config) > 0
-  }
+  } : {}
 
   role       = aws_iam_role.app_role_eks[each.key].name
   policy_arn = aws_iam_policy.app_role_policies[each.key].arn

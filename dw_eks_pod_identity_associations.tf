@@ -1,5 +1,5 @@
 resource "aws_eks_pod_identity_association" "apps" {
-  for_each = var.pod_identity.enabled ? var.pod_identity.apps : {}
+  for_each = (var.CREATE_IAM && var.pod_identity.enabled) ? var.pod_identity.apps : {}
 
   cluster_name    = var.eks.create ? aws_eks_cluster.main[0].name : var.eks.existing.name
   namespace       = var.PROJECT_ENV
