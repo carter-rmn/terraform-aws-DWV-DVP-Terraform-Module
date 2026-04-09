@@ -91,6 +91,9 @@ variable "eks" {
     private_id              = list(string)
     fargate_namespaces = list(string)
     aws_eks_cluster_version = string
+    existing = object({
+      name = string
+    })
   })
 }
 
@@ -140,5 +143,25 @@ variable "alarm" {
   type = object({
     enabled = bool
     emails  = list(string)
+  })
+}
+
+variable "pod_identity" {
+  type = object({
+    enabled = bool
+
+    users = map(map(object({
+      actions  = list(string)
+      effect   = string
+      resource = any
+    })))
+
+    apps = map(object({
+      role_key = string
+    }))
+
+    s3s = optional(map(object({
+      users = list(string)
+    })), {})
   })
 }
