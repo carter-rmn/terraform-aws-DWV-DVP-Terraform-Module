@@ -6,7 +6,11 @@ resource "aws_eks_pod_identity_association" "apps" {
   service_account = "${local.dwv_prefix}-${each.key}"
   role_arn        = aws_iam_role.app_role_eks[each.value.role_key].arn
 
-  tags = merge(local.common_tags, {
-    Name = "${local.dwv_prefix}-pod-identity-${each.key}"
-  })
+  tags = {
+    Name        = "${local.dwv_prefix}-pod-identity-${each.key}"
+    Project     = local.dwv_project_name
+    Customer    = var.PROJECT_CUSTOMER
+    Environment = var.PROJECT_ENV
+    Terraform   = true
+  }
 }

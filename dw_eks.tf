@@ -11,7 +11,7 @@ resource "aws_eks_cluster" "data_weaver_eks_cluster" {
     security_group_ids        = [aws_security_group.sg_eks[0].id]
   }
 
-   tags = {
+  tags = {
     Name        = "${local.dwv_prefix}-eks"
     Project     = local.dwv_project_name
     Customer    = var.PROJECT_CUSTOMER

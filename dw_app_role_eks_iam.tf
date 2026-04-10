@@ -19,9 +19,13 @@ resource "aws_iam_role" "app_role_eks" {
   name               = "${local.dwv_prefix}-iam-role-app-${each.key}"
   assume_role_policy = data.aws_iam_policy_document.pod_identity_assume_role[each.key].json
 
-  tags = merge(local.common_tags, {
-    Name = "${local.dwv_prefix}-iam-role-app-${each.key}"
-  })
+  tags = {
+    Name        = "${local.dwv_prefix}-iam-role-app-${each.key}"
+    Project     = local.dwv_project_name
+    Customer    = var.PROJECT_CUSTOMER
+    Environment = var.PROJECT_ENV
+    Terraform   = true
+  }
 }
 
 resource "aws_iam_policy" "app_role_policies" {
@@ -44,10 +48,14 @@ resource "aws_iam_policy" "app_role_policies" {
       ]
     ])
   })
-
-  tags = merge(local.common_tags, {
-    Name = "${local.dwv_prefix}-iam-policy-app-${each.key}"
-  })
+  
+  tags = {
+    Name        = "${local.dwv_prefix}-iam-policy-app-${each.key}"
+    Project     = local.dwv_project_name
+    Customer    = var.PROJECT_CUSTOMER
+    Environment = var.PROJECT_ENV
+    Terraform   = true
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "app_role_custom_policies" {
