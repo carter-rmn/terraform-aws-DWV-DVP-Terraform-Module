@@ -1,7 +1,7 @@
 resource "aws_iam_policy" "app_role_s3" {
   for_each = var.CREATE_IAM ? { for item in local.app_roles_s3 : "${item.name}-${item.user}" => item } : {}
 
-  name        = "${local.rms_prefix}-iam-policy-s3-app-role-${each.value.name}-${each.value.user}-policy"
+  name        = "${local.dwv_prefix}-iam-policy-s3-app-role-${each.value.name}-${each.value.user}-policy"
   description = "S3 access policy for ${each.value.user} role to ${each.value.name} bucket"
 
   policy = jsonencode({
@@ -31,9 +31,13 @@ resource "aws_iam_policy" "app_role_s3" {
     ]
   })
 
-  tags = merge(local.common_tags, {
-    Name = "${local.rms_prefix}-iam-policy-s3-app-role-${each.value.name}-${each.value.user}-policy"
-  })
+  tags = {
+    Name        = "${local.dwv_prefix}-iam-policy-s3-app-role-${each.value.name}-${each.value.user}-policy"
+    Project     = local.dwv_project_name
+    Customer    = var.PROJECT_CUSTOMER
+    Environment = var.PROJECT_ENV
+    Terraform   = true
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "app_role_s3" {
