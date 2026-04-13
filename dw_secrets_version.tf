@@ -48,7 +48,7 @@ resource "aws_secretsmanager_secret_version" "dwv_secret_terraform" {
       url     = substr(element(split(",", local.msk.bootstrap_brokers), 0), 4, -1)
     }
     ecr = {
-      domain = element(split("/", aws_ecr_repository.ecrs["webserver"].repository_url), 0)
+      domain = element(split("/", aws_ecr_repository.ecrs["core"].repository_url), 0)
     },
     aws = {
       region = var.AWS_REGION
