@@ -20,7 +20,7 @@ variable "ecr" {
     executor        = "executor"
     scheduler       = "scheduler"
     core            = "core"
-    dashboard       = "dashboard"
+    frontend       = "dashboard"
     admin-dashboard = "admin-dashboard"
   }
 }
