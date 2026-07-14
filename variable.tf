@@ -165,3 +165,15 @@ variable "pod_identity" {
     })), {})
   })
 }
+
+variable "existing_mongo_sg" {
+  description = "Existing Mongo Security Group IDs"
+  type        = list(string)
+  default     = []
+}
+
+variable "existing_ssh_sg" {
+  description = "Existing SSH Security Group IDs"
+  type        = list(string)
+  default     = []
+}
